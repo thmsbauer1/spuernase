@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Spürnase</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#2b4f78">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Nunito:wght@500;700;800&family=Special+Elite&display=swap">
+<style>
+/* Layout: eine Spalte; oben eine Kork-Pinnwand, die sich mit gefundenen Spuren füllt, davor Detektivhund Lupo; darunter Blockpanels wie in Lern-Match. Lesetext ruhig, groß, ohne Pixelschrift. */
+:root{
+  --bg:#e4dcc4; --panel:#fffaee; --ink:#231f19; --muted:#675e4e; --line:#231f19;
+  --accent:#2b5b8c; --accent-ink:#ffffff; --accent-dark:#1b3e63;
+  --stamp:#b33a2c; --gold:#e6b440; --ok:#3d8436; --chip:#d9cfb2; --mark:#ffe17a; --markline:#d9a91a;
+  --cork:#b98a57; --cork2:#a2774a; --corkdot:#8d6538; --frame:#6b4426; --card:#fffdf4; --cardline:#c9bd9b; --pin:#c8342a; --yarn:#c8342a;
+  --sus:#efe6cc; --okink:#ffffff; --redink:#ffffff;
+  --f-display:"Pixelify Sans","Courier New",monospace;
+  --f-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-type:"Special Elite","Courier New",monospace;
+  --read:19px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15171c; --panel:#22262f; --ink:#efe8d6; --muted:#a9a08c; --line:#05060a;
+  --accent:#6fa6dd; --accent-ink:#0c1420; --accent-dark:#3f72a6;
+  --stamp:#e2695a; --gold:#efc55c; --ok:#6fbf5a; --chip:#30353f; --mark:#6a5716; --markline:#c9a23a;
+  --cork:#7a5b3a; --cork2:#6a4e31; --corkdot:#55402a; --frame:#3b2717; --card:#efe6cf; --cardline:#a99d80; --pin:#e05a4c; --yarn:#e05a4c;
+  --sus:#2b2f38; --okink:#0f1a0c; --redink:#1c0a07;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#15171c; --panel:#22262f; --ink:#efe8d6; --muted:#a9a08c; --line:#05060a;
+  --accent:#6fa6dd; --accent-ink:#0c1420; --accent-dark:#3f72a6;
+  --stamp:#e2695a; --gold:#efc55c; --ok:#6fbf5a; --chip:#30353f; --mark:#6a5716; --markline:#c9a23a;
+  --cork:#7a5b3a; --cork2:#6a4e31; --corkdot:#55402a; --frame:#3b2717; --card:#efe6cf; --cardline:#a99d80; --pin:#e05a4c; --yarn:#e05a4c;
+  --sus:#2b2f38; --okink:#0f1a0c; --redink:#1c0a07;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 60px}
+h1,h2,h3,.disp{font-family:var(--f-display);font-weight:700;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:1.5rem;line-height:1.15}
+h2{font-size:1.15rem;line-height:1.2}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px dashed var(--accent);outline-offset:3px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.type{font-family:var(--f-type);letter-spacing:.02em}
+.panel{background:var(--panel);border:3px solid var(--line);box-shadow:4px 4px 0 var(--line);padding:14px;min-width:0}
+
+/* Pinnwand */
+.board{position:relative;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+.board svg.bg{display:block;width:100%;height:auto;max-height:230px}
+.lupo{position:absolute;left:max(8px,env(safe-area-inset-left,0px));bottom:-14px;width:clamp(78px,22vw,112px);height:auto;cursor:pointer;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.25));animation:bob 2.8s ease-in-out infinite;background:none;border:0;padding:0}
+.lupo svg{display:block;width:100%;height:auto}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.cardin{animation:pinIn .6s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes pinIn{from{transform:translateY(-14px) scale(.6);opacity:0}}
+
+/* Sprechblase */
+.say{display:flex;gap:10px;align-items:flex-start;margin-top:22px}
+.bubble{position:relative;background:var(--panel);border:3px solid var(--line);box-shadow:4px 4px 0 var(--line);padding:9px 12px;font-weight:700;font-size:.98rem;line-height:1.4;flex:1;min-width:0}
+.bubble .who{display:block;font-family:var(--f-display);font-size:.78rem;color:var(--muted);line-height:1.1;margin-bottom:2px}
+.bubble.ok{border-left-width:10px;border-left-color:var(--ok)}
+.bubble.no{border-left-width:10px;border-left-color:var(--gold)}
+
+/* Werte */
+.stats{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:center}
+.lupen{font-weight:800;font-size:1.5rem;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:6px}
+.lupen svg{width:24px;height:24px}
+.week{display:flex;gap:5px;justify-content:flex-end}
+.week span{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.62rem;font-weight:800;color:var(--muted);line-height:1}
+.week i{width:18px;height:18px;border:3px solid var(--line);background:var(--chip);display:block}
+.week i.on{background:var(--gold)}
+.week span.today{color:var(--ink)}
+.rank{font-family:var(--f-display);font-size:.95rem}
+.bar{height:14px;border:3px solid var(--line);background:var(--chip);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(90deg,var(--accent) 0 10px,var(--accent-dark) 10px 12px)}
+
+/* Buttons */
+.btn{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;font-family:var(--f-display);font-weight:700;font-size:1.05rem;padding:12px 16px;background:var(--accent);color:var(--accent-ink);border:3px solid var(--line);box-shadow:inset 0 -5px 0 var(--accent-dark),3px 3px 0 var(--line);display:inline-flex;justify-content:center;align-items:center;gap:8px;min-height:50px}
+.btn:active{transform:translate(2px,2px);box-shadow:inset 0 -3px 0 var(--accent-dark),1px 1px 0 var(--line)}
+.btn:focus-visible{outline:3px dashed var(--ink);outline-offset:3px}
+.btn.big{width:100%;font-size:1.15rem;min-height:56px}
+.btn.ghost{background:var(--panel);color:var(--ink);box-shadow:inset 0 -5px 0 var(--chip),3px 3px 0 var(--line)}
+.btn.red{background:var(--stamp);color:var(--redink);box-shadow:inset 0 -5px 0 rgba(0,0,0,.25),3px 3px 0 var(--line)}
+.btn.sm{min-height:40px;padding:6px 12px;font-size:.95rem}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.linkbtn{all:unset;cursor:pointer;font-weight:800;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+
+/* Fall-Karte */
+.case{position:relative;overflow:hidden}
+.case .tab{position:absolute;top:0;right:14px;background:var(--gold);color:#231f19;border:3px solid var(--line);border-top:0;padding:2px 10px 4px;font-family:var(--f-type);font-size:.8rem}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.steps>*{border:3px solid var(--line);background:var(--chip);padding:5px 4px;text-align:center;font-size:.72rem;font-weight:800;line-height:1.15;font-family:var(--f-body)}
+.steps button{all:unset;box-sizing:border-box;cursor:pointer}
+.steps .done{background:var(--ok);color:var(--okink)}
+.steps .now{background:var(--gold);color:#231f19}
+.locked{opacity:.75;border-style:dashed;box-shadow:none}
+
+/* Lesen */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+.sizer{display:flex;gap:6px}
+.sizer button{all:unset;cursor:pointer;border:3px solid var(--line);background:var(--panel);font-weight:800;min-width:40px;height:36px;display:grid;place-items:center;box-shadow:2px 2px 0 var(--line)}
+.sizer button:focus-visible{outline:3px dashed var(--accent)}
+.leseblatt{background:var(--card);color:#231f19;border:3px solid var(--line);box-shadow:4px 4px 0 var(--line);padding:18px 16px 18px 12px;background-image:repeating-linear-gradient(transparent 0 calc(var(--read)*1.75 - 1px),rgba(120,100,60,.12) calc(var(--read)*1.75 - 1px) calc(var(--read)*1.75))}
+.leseblatt .kopf{font-family:var(--f-type);font-size:.85rem;color:#675e4e;padding-left:30px;margin-bottom:8px}
+.leseblatt h1{padding-left:30px;margin-bottom:14px;color:#231f19}
+.abs{display:grid;grid-template-columns:24px minmax(0,1fr);gap:6px;margin-bottom:calc(var(--read)*0.9)}
+.abs .nr{font-family:var(--f-type);font-size:.8rem;color:#8a7f69;text-align:right;padding-top:.25em}
+.abs p{font-size:var(--read);line-height:1.75;max-width:62ch}
+.s{border-radius:2px;transition:background .2s}
+.tap .s{cursor:pointer;background:rgba(43,91,140,.07);box-shadow:inset 0 -2px 0 rgba(43,91,140,.25)}
+.tap .s:hover{background:rgba(43,91,140,.16)}
+.s.hit{background:#ffe17a!important;box-shadow:inset 0 -3px 0 #d9a91a!important}
+.s.miss{background:rgba(179,58,44,.18)!important;box-shadow:inset 0 -2px 0 #b33a2c!important}
+.endread{margin-top:6px}
+
+/* Fragen */
+.qchip{display:inline-block;font-family:var(--f-type);font-size:.8rem;padding:2px 8px;border:2px solid var(--line);background:var(--chip)}
+.qchip.beweis{background:var(--mark)}
+.qtext{font-size:1.12rem;font-weight:800;line-height:1.35}
+.prog{display:flex;gap:4px}
+.prog i{flex:1;height:10px;border:2px solid var(--line);background:var(--chip)}
+.prog i.on{background:var(--ok)}
+.prog i.now{background:var(--gold)}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;border:3px solid var(--line);background:var(--panel);box-shadow:3px 3px 0 var(--line);padding:12px 14px;font-weight:700;font-size:1.02rem;line-height:1.35;display:flex;gap:10px;align-items:flex-start}
+.opt b{font-family:var(--f-display);min-width:1.2em}
+.opt:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+.opt:focus-visible{outline:3px dashed var(--accent);outline-offset:2px}
+.opt.right{background:var(--ok);color:var(--okink)}
+.opt.wrong{background:var(--chip);opacity:.6;text-decoration:line-through}
+.opt.sel{background:var(--mark)}
+.opt .num{margin-left:auto;font-family:var(--f-display);font-size:1.2rem}
+.peek{border-top:3px dashed var(--line);padding-top:12px}
+
+/* Akte */
+.akte{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.idx{background:var(--card);color:#231f19;border:2px solid var(--line);padding:10px 10px 10px 12px;position:relative;font-size:.92rem;line-height:1.35;min-width:0;background-image:linear-gradient(#e5a9a3,#e5a9a3);background-size:100% 2px;background-repeat:no-repeat;background-position:0 30px}
+.idx .h{font-family:var(--f-type);font-size:.85rem;display:block;height:24px;color:#2b5b8c}
+.idx.leer{background:transparent;color:var(--muted);border-style:dashed;display:grid;place-items:center;min-height:86px;font-family:var(--f-display)}
+.sus{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.susc{all:unset;box-sizing:border-box;border:3px solid var(--line);background:var(--sus);padding:10px;display:flex;gap:10px;align-items:center;position:relative;min-width:0}
+button.susc{cursor:pointer;box-shadow:3px 3px 0 var(--line)}
+button.susc:focus-visible{outline:3px dashed var(--accent)}
+.susc .face{width:44px;height:44px;flex:none;border:3px solid var(--line);display:grid;place-items:center;font-family:var(--f-display);color:#fff;font-size:1.1rem}
+.susc .nm{font-weight:800;line-height:1.15}
+.susc .rl{font-size:.78rem;color:var(--muted);line-height:1.2}
+.susc .x{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.susc.out .face,.susc.out .nm,.susc.out .rl{opacity:.45}
+.susc .why{font-size:.72rem;font-weight:800;color:var(--stamp);line-height:1.2;margin-top:2px}
+.susc.pick{background:var(--mark)}
+
+/* Stempel */
+.stamp{display:inline-block;font-family:var(--f-type);font-size:1.6rem;color:var(--stamp);border:4px solid var(--stamp);padding:2px 14px;transform:rotate(-6deg);letter-spacing:.08em;animation:stampIn .5s cubic-bezier(.3,1.7,.5,1) both}
+@keyframes stampIn{from{transform:rotate(-6deg) scale(2.2);opacity:0}}
+.center{text-align:center}
+.talk{background:var(--mark);color:var(--ink);border:3px solid var(--line);box-shadow:4px 4px 0 var(--line);padding:14px}
+.talk .h{font-family:var(--f-display);font-size:1rem;margin-bottom:4px;display:block}
+
+/* Eltern */
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{text-align:left;padding:6px 6px;border-bottom:2px solid var(--chip);font-variant-numeric:tabular-nums}
+th{font-family:var(--f-display);font-weight:700;font-size:.82rem}
+td.n,th.n{text-align:right}
+.scrollx{overflow-x:auto}
+
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border:3px solid var(--line);font-weight:800;z-index:20;max-width:calc(100% - 32px);text-align:center;animation:pinIn .4s both}
+footer{margin-top:26px;text-align:center}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="inhalte.js"></script>
+<script>
+"use strict";
+const KEY="spuernase-v1";
+const FALL=window.FAELLE||[], SP=window.SPUREN||{};
+let mem=null;
+function load(){try{const t=localStorage.getItem(KEY);return t?JSON.parse(t):null;}catch(e){return mem;}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){mem=JSON.parse(JSON.stringify(S));}}
+function fresh(){return{v:1,lupen:0,size:1,days:{},faelle:{}};}
+let S=load()||fresh();
+function fs(id){if(!S.faelle[id])S.faelle[id]={kap:{},spuren:[],geloest:false};return S.faelle[id];}
+
+const UI={view:"home",f:0,k:0,qi:0,q:null,readStart:0,readAcc:0,peek:false,anklage:null,beweise:[],say:null};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function iso(d){const z=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate());}
+const today=()=>iso(new Date());
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2600);}
+function shuffle(a,seed){a=a.slice();let s=seed||7;for(let i=a.length-1;i>0;i--){s=(s*9301+49297)%233280;const j=Math.floor(s/233280*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* ---------- Text zerlegen ---------- */
+const SPLIT=/(?<=[.!?…“])\s+(?=[A-ZÄÖÜ„\[])/;
+function parse(absaetze){let words=0;const ps=absaetze.map(p=>{words+=p.replace(/\[\[b\d+\]\]/g,"").split(/\s+/).filter(Boolean).length;return p.split(SPLIT).map(t=>{const m=t.match(/^\[\[(b\d+)\]\]/);return{key:m?m[1]:null,t:m?t.slice(m[0].length):t};});});return{ps,words};}
+function textHTML(absaetze,hit){const{ps}=parse(absaetze);return ps.map((sents,i)=>`<div class="abs"><span class="nr">${i+1}</span><p>${sents.map((s,j)=>`<span class="s${hit&&s.key===hit?" hit":""}" data-k="${s.key||""}" data-id="${i}.${j}">${esc(s.t)}</span>`).join(" ")}</p></div>`).join("");}
+const words=a=>parse(a).words;
+const minuten=w=>Math.max(1,Math.round(w/110));
+
+/* ---------- Grafik ---------- */
+const LUPO=[".......KKKKKKKK.......","......KHhHhHhHhK......",".....KHhHhHhHhHhK.....","...KKKKKKKKKKKKKKKK...","...KDDKBBBBBBBBKDDK...","..KDDDKBBBBBBBBKDDDK..","..KDDDBBWEBBWEBBDDDK..","..KDDDBBEEBBEEBBDDDK..","..KDDDBBBLLLLBBBDDDK..","...KDDBBLLNNLLBBDDK...","...KDDBBLLLLLLBBDDK...","....KKKBBLPPLBBKKK....","......KBBBLLBBBK.KKK..",".....KBBBBBBBBBBKGGGK.","....KBBBLLLLLLBBKGGGGK","....KBBLLLLLLLLBKGGGK.","....KBBLLLLLLLLMMKKK..","....KBBBLLLLLLMMBK....","....KKBBKKKKKKBBKK....",".....KKKK....KKKK....."];
+const LC={K:"#2a1e16",H:"#8c6838",h:"#5c4224",D:"#6e3e22",B:"#b06e3a",L:"#eecea0",N:"#1c1614",W:"#ffffff",E:"#1c1614",P:"#e86e78",G:"#bae2f0",M:"#e2b03a"};
+function lupoSVG(){let r="";LUPO.forEach((row,y)=>{[...row].forEach((c,x)=>{if(LC[c])r+=`<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${LC[c]}"/>`;});});return`<svg viewBox="0 0 22 20" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`;}
+const LUPE=`<svg viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="1" width="5" height="1" fill="#2a1e16"/><rect x="1" y="2" width="1" height="5" fill="#2a1e16"/><rect x="7" y="2" width="1" height="5" fill="#2a1e16"/><rect x="2" y="7" width="5" height="1" fill="#2a1e16"/><rect x="2" y="2" width="5" height="5" fill="#bae2f0"/><rect x="3" y="3" width="1" height="1" fill="#fff"/><rect x="7" y="7" width="2" height="2" fill="#e2b03a"/><rect x="9" y="9" width="2" height="2" fill="#e2b03a"/></svg>`;
+
+const SLOTS=[[10,14,-4],[84,18,3],[158,8,-2],[230,14,4],[284,56,-3],[84,60,2],[226,108,3],[150,112,-2]];
+const SEEN=new Set();
+function boardSVG(fid){
+  const st=fs(fid), found=st.spuren;
+  let cork="";for(let i=0;i<70;i++){const x=(i*53)%356+2,y=(i*37)%140+6;cork+=`<rect x="${x}" y="${y}" width="2" height="2" fill="var(--corkdot)"/>`;}
+  const keys=Object.keys(SP);
+  const cards=found.map(k=>{const i=keys.indexOf(k),[x,y,r]=SLOTS[i%SLOTS.length];return{k,x,y,r};});
+  const yarn=cards.length?`<polyline points="${["180,78"].concat(cards.map(c=>(c.x+30)+","+(c.y+6))).join(" ")}" fill="none" stroke="var(--yarn)" stroke-width="1.6"/>`:"";
+  const solved=st.geloest;
+  const center=`<g transform="translate(150 58) rotate(-2)"><rect width="60" height="44" fill="var(--card)" stroke="var(--cardline)" stroke-width="1"/><text x="30" y="${solved?20:30}" text-anchor="middle" font-family="Pixelify Sans,monospace" font-size="${solved?13:22}" fill="#231f19">${solved?"GELÖST":"?"}</text>${solved?`<text x="30" y="35" text-anchor="middle" font-family="Special Elite,monospace" font-size="8.5" fill="#b33a2c">Marco</text>`:""}<rect x="-1" y="-1" width="62" height="5" fill="#e6b440"/><circle cx="30" cy="2" r="3.4" fill="var(--pin)" stroke="#231f19" stroke-width=".8"/></g>`;
+  const cs=cards.map(c=>`<g transform="translate(${c.x} ${c.y}) rotate(${c.r})"><g class="${SEEN.has(c.k)?"":"cardin"}"><rect width="64" height="26" fill="var(--card)" stroke="var(--cardline)" stroke-width="1"/><line x1="4" y1="9" x2="60" y2="9" stroke="#e5a9a3" stroke-width=".8"/><text x="32" y="20" text-anchor="middle" font-family="Special Elite,monospace" font-size="9.5" fill="#231f19">${esc(SP[c.k].kurz)}</text><circle cx="30" cy="5" r="3" fill="var(--pin)" stroke="#231f19" stroke-width=".8"/></g></g>`).join("");
+  cards.forEach(c=>SEEN.add(c.k));
+  return`<svg class="bg" viewBox="0 0 360 150" aria-hidden="true"><rect width="360" height="150" fill="var(--frame)"/><rect x="6" y="6" width="348" height="138" fill="var(--cork)"/><rect x="6" y="6" width="348" height="138" fill="none" stroke="var(--cork2)" stroke-width="3"/>${cork}${yarn}${center}${cs}</svg>`;
+}
+
+/* ---------- Fortschritt ---------- */
+const RANG=[[0,"Anfänger"],[25,"Spurensucher"],[60,"Spürnase"],[120,"Kommissar"],[220,"Meisterdetektiv"]];
+function rang(){let r=RANG[0],n=null;for(let i=0;i<RANG.length;i++){if(S.lupen>=RANG[i][0]){r=RANG[i];n=RANG[i+1]||null;}}return{r,n};}
+function serie(){let d=new Date(),n=0;if(!S.days[iso(d)])d.setDate(d.getDate()-1);while(S.days[iso(d)]){n++;d.setDate(d.getDate()-1);}return n;}
+function weekHTML(){const d=new Date(),wd=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-wd);const L=["Mo","Di","Mi","Do","Fr","Sa","So"];let h="";for(let i=0;i<7;i++){const x=new Date(mon);x.setDate(mon.getDate()+i);h+=`<span class="${i===wd?"today":""}"><i class="${S.days[iso(x)]?"on":""}"></i>${L[i]}</span>`;}return`<div class="week" aria-label="Lesetage diese Woche">${h}</div>`;}
+function kapDone(fid,k){const x=fs(fid).kap[k];return!!(x&&x.fertig);}
+function nextStep(f){for(let k=0;k<f.kapitel.length;k++)if(!kapDone(f.id,k))return k;return fs(f.id).geloest?"fertig":"anklage";}
+function addSpur(fid,k){const st=fs(fid);if(k&&!st.spuren.includes(k)){st.spuren.push(k);return true;}return false;}
+
+/* ---------- Ansichten ---------- */
+function lupoSays(text,cls){return`<div class="say"><div class="bubble ${cls||""}" role="status"><span class="who">Lupo</span>${text}</div></div>`;}
+const TIPPS=["Lies in Ruhe. Spuren verstecken sich oft in kleinen Sätzen.","Nachschauen ist erlaubt! Gute Detektive lesen Stellen zweimal.","Wenn ein Wort neu ist: Lies den Satz davor und danach.","Frag dich beim Lesen: Wer? Wann? Wo? Warum?"];
+
+function home(){
+  const f=FALL[UI.f], st=fs(f.id), step=nextStep(f), {r,n}=rang();
+  const labels=f.kapitel.map((k,i)=>`Kap. ${i+1}`).concat(["Anklage"]);
+  const cur=step==="anklage"?f.kapitel.length:step==="fertig"?99:step;
+  const steps=labels.map((l,i)=>{const done=i<f.kapitel.length?kapDone(f.id,i):st.geloest;return done&&i<f.kapitel.length?`<button class="done" data-a="read" data-k="${i}" aria-label="Kapitel ${i+1} nochmal lesen">${l} ✓</button>`:`<div class="${done?"done":i===cur?"now":""}">${l}</div>`;}).join("");
+  let btn,msg;
+  if(step==="fertig"){btn=`<button class="btn big ghost" data-a="loesung">Auflösung nochmal lesen</button>`;msg="Fall gelöst! Der nächste Fall ist schon in Arbeit.";}
+  else if(step==="anklage"){btn=`<button class="btn big red" data-a="anklage">Zur Anklage</button>`;msg="Du hast alle Spuren gesammelt. Wer hat den Pokal?";}
+  else{const w=words(f.kapitel[step].absaetze);btn=`<button class="btn big" data-a="read" data-k="${step}">Kapitel ${step+1} lesen · ca. ${minuten(w)} Min.</button>`;msg=step===0?"Hallo Philip! Ich bin Lupo. Ein neuer Fall wartet auf uns.":(f.kapitel[step-1].weiter||"Weiter geht's!");}
+  if(UI.say)msg=UI.say;
+  const pct=n?Math.min(100,Math.round((S.lupen-r[0])/(n[0]-r[0])*100)):100;
+  const bald=(window.BALD||[]).map(b=>`<div class="panel locked stack" style="gap:4px"><span class="type small muted">Fall ${b.nr} · ${esc(b.art)} · bald</span><h2>${esc(b.titel)}</h2><p class="small muted">${esc(b.text)}</p></div>`).join("");
+  return`<div class="board">${boardSVG(f.id)}<button class="lupo" data-a="lupo" aria-label="Lupo">${lupoSVG()}</button></div>
+  ${lupoSays(esc(msg))}
+  <div class="stack" style="margin-top:16px">
+    <div class="panel stats">
+      <div class="lupen">${LUPE}<span>${S.lupen}</span></div>${weekHTML()}
+      <div class="rank">${esc(r[1])}</div><div><div class="bar" aria-hidden="true"><i style="width:${pct}%"></i></div><div class="small muted" style="margin-top:3px">${n?`Noch ${n[0]-S.lupen} Lupen bis „${esc(n[1])}“`:"Höchster Rang erreicht"} · Serie: ${serie()} ${serie()===1?"Tag":"Tage"}</div></div>
+    </div>
+    <div class="panel case stack">
+      <span class="tab">Akte Nr. ${f.nr}</span>
+      <div><span class="type small muted">Stufe ${f.stufe} · ${esc(f.ort)}</span><h2 style="margin-top:2px;padding-right:90px">${esc(f.titel)}</h2></div>
+      <div class="steps">${steps}</div>
+      ${btn}
+      <button class="btn ghost" data-a="akte">Fall-Akte öffnen · ${st.spuren.length} ${st.spuren.length===1?"Spur":"Spuren"}</button>
+    </div>
+    ${bald}
+  </div>
+  <footer><button class="linkbtn small" data-a="eltern">Für Eltern</button></footer>`;
+}
+
+function read(){
+  const f=FALL[UI.f],k=f.kapitel[UI.k],w=words(k.absaetze);
+  return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Pinnwand</button><div class="sizer" aria-label="Schriftgröße"><button data-a="size" data-d="-1" aria-label="Schrift kleiner">A−</button><button data-a="size" data-d="1" aria-label="Schrift größer">A+</button></div></div>
+  ${lupoSays(esc(TIPPS[UI.k%TIPPS.length]))}
+  <article class="leseblatt" style="margin-top:16px"><div class="kopf">Akte Nr. ${f.nr} · Kapitel ${UI.k+1} von ${f.kapitel.length} · ${w} Wörter</div><h1>${esc(k.titel)}</h1>${textHTML(k.absaetze)}</article>
+  <div class="endread stack" style="margin-top:16px"><button class="btn big" data-a="quiz">Fertig gelesen · zu den Fragen</button></div>`;
+}
+
+const TYP={fakt:"Fakt",wort:"Wort",schluss:"Schlussfolgern",beweis:"Beweis",reihe:"Reihenfolge"};
+function quiz(){
+  const f=FALL[UI.f],kap=f.kapitel[UI.k],q=kap.fragen[UI.qi],Q=UI.q;
+  const prog=kap.fragen.map((_,i)=>`<i class="${i<UI.qi?"on":i===UI.qi?"now":""}"></i>`).join("");
+  let body="";
+  if(q.typ==="beweis"){
+    body=`<div class="leseblatt ${Q.done?"":"tap"}" id="belegtext"><div class="kopf">${Q.done?"Beweis gefunden":"Tippe auf den Satz"}</div>${textHTML(kap.absaetze,Q.done?q.beleg:null)}</div>`;
+  }else if(q.typ==="reihe"){
+    const order=shuffle(q.schritte.map((t,i)=>i),UI.k*31+5);
+    body=`<div class="opts">${order.map(i=>{const pos=Q.seq.indexOf(i);return`<button class="opt ${pos>=0?"sel":""}" data-a="reihe" data-i="${i}" ${pos>=0||Q.done?"disabled":""}><span>${esc(q.schritte[i])}</span>${pos>=0?`<span class="num">${pos+1}</span>`:""}</button>`;}).join("")}</div>`;
+  }else{
+    const order=shuffle(q.optionen.map((t,i)=>i),UI.k*13+UI.qi*7+3);
+    body=`<div class="opts">${order.map((i,n)=>{const cls=Q.done&&i===q.richtig?"right":Q.wrong.includes(i)?"wrong":"";return`<button class="opt ${cls}" data-a="opt" data-i="${i}" ${Q.done||Q.wrong.includes(i)?"disabled":""}><b>${"ABC"[n]}</b><span>${esc(q.optionen[i])}</span></button>`;}).join("")}</div>
+    ${Q.done?"":`<button class="linkbtn small" data-a="peek">${UI.peek?"Text wieder zuklappen":"Im Text nachschauen"}</button>`}
+    ${UI.peek&&!Q.done?`<div class="leseblatt peek">${textHTML(kap.absaetze)}</div>`:""}`;
+  }
+  let fb="";
+  if(Q.done)fb=lupoSays(esc(q.gut)+(q.spur?`<br><span class="type small">Neue Spur für die Akte: ${esc(SP[q.spur].kurz)}</span>`:""),"ok");
+  else if(Q.tries>0)fb=lupoSays(esc(Q.msg||q.tipp),"no");
+  const last=UI.qi===kap.fragen.length-1;
+  return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Pinnwand</button><span class="type small muted">Kapitel ${UI.k+1} · Frage ${UI.qi+1} von ${kap.fragen.length}</span></div>
+  <div class="stack" style="margin-top:14px">
+    <div class="prog" aria-hidden="true">${prog}</div>
+    <div class="panel stack" style="gap:10px"><span><span class="qchip ${q.typ}">${TYP[q.typ]}</span></span><p class="qtext">${esc(q.frage)}</p></div>
+    ${fb}
+    ${body}
+    ${Q.done?`<button class="btn big" data-a="next">${last?"Kapitel abschließen":"Nächste Frage"}</button>`:""}
+  </div>`;
+}
+
+function kapFertig(){
+  const f=FALL[UI.f],kap=f.kapitel[UI.k],rec=fs(f.id).kap[UI.k],last=UI.k===f.kapitel.length-1;
+  const sp=kap.fragen.filter(q=>q.spur).map(q=>q.spur);
+  return`<div class="stack center" style="margin-top:28px;align-items:center">
+    <span class="stamp">KAPITEL ${UI.k+1} GESCHAFFT</span>
+    <div class="lupen" style="justify-content:center;margin-top:10px">${LUPE}<span>+${rec.lupen||0}</span></div>
+  </div>
+  <div class="stack" style="margin-top:16px">
+    <div class="panel stack"><h2>Neue Spuren in der Akte</h2><div class="akte">${sp.map(k=>`<div class="idx"><span class="h">${esc(SP[k].kurz)}</span>${esc(SP[k].lang)}</div>`).join("")}</div></div>
+    ${lupoSays(esc(kap.weiter||""))}
+    <button class="btn big ${last?"red":""}" data-a="${last?"anklage":"home"}">${last?"Zur Anklage":"Zur Pinnwand"}</button>
+    ${last?`<button class="btn ghost" data-a="home">Erst später</button>`:""}
+  </div>`;
+}
+
+function akte(){
+  const f=FALL[UI.f],st=fs(f.id);
+  const sus=f.verdaechtige.map(v=>{const out=v.raus&&st.spuren.includes(v.raus);return`<div class="susc ${out?"out":""}"><div class="face" style="background:${v.farbe}">${esc(v.name.split(" ").pop()[0])}</div><div style="min-width:0"><div class="nm">${esc(v.name)}</div><div class="rl">${esc(v.rolle)}</div>${out?`<div class="why">${esc(v.grund)}</div>`:""}</div></div>`;}).join("");
+  const keys=f.kapitel.flatMap(k=>k.fragen.filter(q=>q.spur).map(q=>q.spur));
+  const cards=keys.map(k=>st.spuren.includes(k)?`<div class="idx"><span class="h">${esc(SP[k].kurz)}</span>${esc(SP[k].lang)}</div>`:`<div class="idx leer">???</div>`).join("");
+  return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Pinnwand</button><span class="type small muted">Akte Nr. ${f.nr}</span></div>
+  <div class="stack" style="margin-top:14px">
+    <h1>${esc(f.titel)}</h1>
+    <div class="panel stack"><h2>Verdächtige</h2><div class="sus">${sus}</div></div>
+    <div class="panel stack"><h2>Spuren · ${st.spuren.length} von ${keys.length}</h2><div class="akte">${cards}</div></div>
+  </div>`;
+}
+
+function anklage(){
+  const f=FALL[UI.f],st=fs(f.id),A=f.anklage;
+  const step=UI.anklage===A.taeter?2:1;
+  const sus=f.verdaechtige.map(v=>`<button class="susc ${UI.anklage===v.id?"pick":""}" data-a="sus" data-id="${v.id}" ${step===2?"disabled":""}><div class="face" style="background:${v.farbe}">${esc(v.name.split(" ").pop()[0])}</div><div style="min-width:0"><div class="nm">${esc(v.name)}</div><div class="rl">${esc(v.rolle)}</div></div></button>`).join("");
+  let fb="",part2="";
+  if(UI.ankMsg)fb=lupoSays(esc(UI.ankMsg),UI.ankOk?"ok":"no");
+  if(step===2){
+    const opts=st.spuren.map(k=>`<button class="opt ${UI.beweise.includes(k)?"sel":""}" data-a="bew" data-k="${k}"><span><b class="type">${esc(SP[k].kurz)}</b><br>${esc(SP[k].lang)}</span></button>`).join("");
+    part2=`<div class="panel stack" style="gap:6px"><span><span class="qchip beweis">Beweis</span></span><p class="qtext">Welche zwei Spuren beweisen es am besten? Wähle genau zwei.</p></div><div class="opts">${opts}</div><button class="btn big red" data-a="anklagen" ${UI.beweise.length===2?"":"disabled"}>Anklage erheben</button>`;
+  }
+  return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Pinnwand</button><span class="type small muted">Anklage</span></div>
+  <div class="stack" style="margin-top:14px">
+    <div class="panel stack" style="gap:6px"><span><span class="qchip">Schlussfolgern</span></span><p class="qtext">Wer hat den Pokal aus der Vitrine genommen?</p></div>
+    <div class="sus">${sus}</div>
+    ${fb}${part2}
+  </div>`;
+}
+
+function loesung(){
+  const f=FALL[UI.f],a=f.aufloesung;
+  return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Pinnwand</button><div class="sizer"><button data-a="size" data-d="-1" aria-label="Schrift kleiner">A−</button><button data-a="size" data-d="1" aria-label="Schrift größer">A+</button></div></div>
+  <div class="stack center" style="margin-top:22px;align-items:center"><span class="stamp">FALL GELÖST</span></div>
+  <article class="leseblatt" style="margin-top:20px"><div class="kopf">Akte Nr. ${f.nr} · Auflösung</div><h1>${esc(a.titel)}</h1>${textHTML(a.absaetze)}</article>
+  <div class="stack" style="margin-top:16px">
+    <div class="talk"><span class="h">Erzähl's Papa</span>${esc(a.erzaehl)}</div>
+    <button class="btn big" data-a="home">Zur Pinnwand</button>
+  </div>`;
+}
+
+function eltern(){
+  const f=FALL[UI.f],st=fs(f.id);
+  const rows=f.kapitel.map((k,i)=>{const r=st.kap[i]||{},w=words(k.absaetze),min=r.ms?r.ms/60000:0;const first=r.first!=null?`${r.first} von ${k.fragen.length}`:"–";return`<tr><td>${i+1}. ${esc(k.titel)}</td><td class="n">${w}</td><td class="n">${min?min.toLocaleString("de-DE",{maximumFractionDigits:1})+" Min":"–"}</td><td class="n">${min?Math.round(w/min):"–"}</td><td class="n">${first}</td></tr>`;}).join("");
+  const by={};Object.values(st.kap).forEach(r=>(r.typen||[]).forEach(([t,ok])=>{by[t]=by[t]||[0,0];by[t][1]++;if(ok)by[t][0]++;}));
+  const trows=Object.keys(TYP).map(t=>by[t]?`<tr><td>${TYP[t]}</td><td class="n">${by[t][0]} von ${by[t][1]}</td></tr>`:"").join("")||`<tr><td colspan="2" class="muted">Noch keine Fragen beantwortet.</td></tr>`;
+  return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Zurück</button><span class="type small muted">Für Eltern</span></div>
+  <div class="stack" style="margin-top:14px">
+    <h1>Lesestand</h1>
+    <div class="panel stack"><h2>Kapitel</h2><div class="scrollx"><table><thead><tr><th>Kapitel</th><th class="n">Wörter</th><th class="n">Lesezeit</th><th class="n">Wörter/Min</th><th class="n">1. Versuch</th></tr></thead><tbody>${rows}</tbody></table></div><p class="small muted">Die Lesezeit läuft vom Öffnen des Kapitels bis „Fertig gelesen“, pausiert, wenn die App im Hintergrund ist, und wird Philip nicht angezeigt. Richtwert 5. Klasse, leise gelesen: grob 100 bis 150 Wörter pro Minute.</p></div>
+    <div class="panel stack"><h2>Fragetypen beim 1. Versuch richtig</h2><table><tbody>${trows}</tbody></table><p class="small muted">Fakt = Information finden · Wort = Bedeutung aus dem Zusammenhang · Schlussfolgern = zwischen den Zeilen lesen · Beweis = Textstelle belegen · Reihenfolge = Handlung ordnen.</p></div>
+    <div class="panel stack"><h2>Stufen</h2><table><tbody><tr><td>Stufe 1</td><td>ca. 250–400 Wörter je Kapitel, 2–4 Min.</td></tr><tr><td>Stufe 2</td><td>ca. 600–700 Wörter, 5–6 Min.</td></tr><tr><td>Stufe 3</td><td>ca. 1000 Wörter, 8–10 Min.</td></tr><tr><td>Stufe 4</td><td>15 Min. und mehr, Sachtext mit Grafik</td></tr></tbody></table><p class="small muted">Die nächste Stufe kommt, wenn in einem Fall mindestens drei Viertel der Fragen beim ersten Versuch sitzen. Länger wird der Text, das Tempo bleibt frei.</p></div>
+    <div class="panel stack"><h2>Zurücksetzen</h2>${UI.resetAsk?`<p>Wirklich alles löschen, auch Lupen und Serie?</p><div class="row"><button class="btn red sm" data-a="reset2">Ja, löschen</button><button class="btn ghost sm" data-a="reset0">Abbrechen</button></div>`:`<button class="btn ghost sm" data-a="reset1">Fortschritt zurücksetzen</button>`}</div>
+  </div>`;
+}
+
+/* ---------- Render ---------- */
+function render(){
+  document.documentElement.style.setProperty("--read",[17,19,22,25][S.size]+"px");
+  const v={home,read,quiz,kapFertig,akte,anklage,loesung,eltern}[UI.view]||home;
+  $("#app").innerHTML=v();
+}
+function go(view,top=true){UI.view=view;render();if(top)window.scrollTo(0,0);}
+
+/* Lesezeit, pausiert im Hintergrund */
+function readStart(){UI.readAcc=0;UI.readStart=Date.now();}
+function readMs(){return UI.readAcc+(UI.readStart?Date.now()-UI.readStart:0);}
+document.addEventListener("visibilitychange",()=>{if(UI.view!=="read")return;if(document.hidden){UI.readAcc+=Date.now()-UI.readStart;UI.readStart=0;}else UI.readStart=Date.now();});
+
+function newQ(){UI.q={tries:0,wrong:[],seq:[],done:false,msg:null};UI.peek=false;}
+function answered(ok,msg){
+  const f=FALL[UI.f],kap=f.kapitel[UI.k],q=kap.fragen[UI.qi],Q=UI.q,rec=fs(f.id).kap[UI.k];
+  if(ok){Q.done=true;rec.res[UI.qi]=Q.tries===0;rec.lupen=(rec.lupen||0)+(Q.tries===0?3:1);if(q.spur)addSpur(f.id,q.spur);}
+  else{Q.tries++;Q.msg=msg||null;}
+  save();render();
+  const fb=document.querySelector(".bubble");if(fb)fb.scrollIntoView({block:"nearest",behavior:"smooth"});
+}
+
+document.addEventListener("click",e=>{
+  const s=e.target.closest(".tap .s");
+  if(s&&UI.view==="quiz"){const q=FALL[UI.f].kapitel[UI.k].fragen[UI.qi];if(UI.q.done)return;
+    if(s.dataset.k===q.beleg){s.classList.add("hit");setTimeout(()=>answered(true),350);}
+    else{s.classList.add("miss");setTimeout(()=>answered(false),300);}return;}
+  const b=e.target.closest("[data-a]");if(!b)return;
+  const a=b.dataset.a,f=FALL[UI.f];
+  switch(a){
+    case"home":UI.say=null;go("home");break;
+    case"lupo":UI.say=TIPPS[Math.floor(Math.random()*TIPPS.length)];render();break;
+    case"read":UI.k=+b.dataset.k;readStart();go("read");break;
+    case"size":S.size=Math.max(0,Math.min(3,S.size+ +b.dataset.d));save();render();break;
+    case"quiz":{const st=fs(f.id);const ms=readMs();UI.readStart=0;
+      const rec=st.kap[UI.k]||(st.kap[UI.k]={res:[],lupen:0});if(!rec.ms)rec.ms=ms;rec.res=[];rec.lupen=0;save();
+      UI.qi=0;newQ();go("quiz");break;}
+    case"peek":UI.peek=!UI.peek;render();break;
+    case"opt":{const q=f.kapitel[UI.k].fragen[UI.qi],i=+b.dataset.i;if(i===q.richtig)answered(true);else{UI.q.wrong.push(i);answered(false);}break;}
+    case"reihe":{const q=f.kapitel[UI.k].fragen[UI.qi],i=+b.dataset.i,Q=UI.q;
+      if(i===Q.seq.length){Q.seq.push(i);if(Q.seq.length===q.schritte.length)answered(true);else render();}
+      else{Q.seq=[];answered(false,q.tipp+" Fang nochmal von vorne an.");}break;}
+    case"next":{const kap=f.kapitel[UI.k];if(UI.qi<kap.fragen.length-1){UI.qi++;newQ();go("quiz");}
+      else{const st=fs(f.id),rec=st.kap[UI.k];const firstRun=!rec.fertig;
+        if(firstRun){rec.first=rec.res.filter(Boolean).length;rec.typen=kap.fragen.map((q,i)=>[q.typ,!!rec.res[i]]);rec.fertig=true;rec.lupen+=5;S.lupen+=rec.lupen;S.days[today()]=true;}else rec.lupen=0;
+        save();go("kapFertig");}break;}
+    case"akte":go("akte");break;
+    case"anklage":UI.anklage=null;UI.beweise=[];UI.ankMsg=null;go("anklage");break;
+    case"sus":{const id=b.dataset.id,A=f.anklage;UI.anklage=id;UI.beweise=[];
+      if(id===A.taeter){UI.ankMsg="Interessant! Und wie beweist du das?";UI.ankOk=true;}else{UI.ankMsg=A.falsch[id]||"Hm, prüf das nochmal mit der Akte.";UI.ankOk=false;}render();break;}
+    case"bew":{const k=b.dataset.k,i=UI.beweise.indexOf(k);if(i>=0)UI.beweise.splice(i,1);else if(UI.beweise.length<2)UI.beweise.push(k);UI.ankMsg=null;render();break;}
+    case"anklagen":{const A=f.anklage,ok=UI.beweise.every(k=>A.beweise.includes(k))&&UI.beweise.some(k=>A.muss.includes(k));
+      if(!ok){UI.ankOk=false;UI.ankMsg=UI.beweise.some(k=>!A.beweise.includes(k))?"Eine deiner Spuren zeigt nur, wer es nicht war. Welche Spuren zeigen direkt auf Marco?":"Gut, aber noch nicht stark genug. Welche Spur zeigt, dass Marco weg war oder was er vorhatte?";render();break;}
+      const st=fs(f.id);if(!st.geloest){st.geloest=true;S.lupen+=15;S.days[today()]=true;save();toast("+15 Lupen für den gelösten Fall!");}
+      go("loesung");break;}
+    case"loesung":go("loesung");break;
+    case"eltern":UI.resetAsk=false;go("eltern");break;
+    case"reset1":UI.resetAsk=true;render();break;
+    case"reset0":UI.resetAsk=false;render();break;
+    case"reset2":S=fresh();save();UI.resetAsk=false;toast("Fortschritt gelöscht.");go("home");break;
+  }
+});
+
+Object.values(S.faelle).forEach(x=>(x.spuren||[]).forEach(k=>SEEN.add(k)));
+render();
+try{if("serviceWorker" in navigator&&/github\.io$/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{});}catch(e){}
+</script>
+
+</body>
+</html>
