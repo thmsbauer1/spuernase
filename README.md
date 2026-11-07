@@ -8,4 +8,4 @@ Lese-App mit Detektivfällen für die 5. Klasse. Detektivhund Lupo führt durch 
 - Stufen: Die Kapitel werden von Fall zu Fall länger (Stufe 1 ca. 250–330 Wörter, Stufe 2 ca. 350–450, später 600 und 1000+). Es gibt keinen Zeitdruck.
 - Die Elternansicht zeigt den Vorrat an ungelesenen Kapiteln. Wird er knapp, kommen neue Fälle per Update dazu.
 - „Für Eltern“ (unten auf der Startseite) zeigt Lesezeit, Wörter pro Minute und Trefferquote je Fragetyp.
-- Läuft im Browser und lässt sich in Chrome über „App installieren“ auf den Startbildschirm legen. Der Fortschritt wird nur auf dem jeweiligen Gerät gespeichert.
+- Läuft im Browser und lässt sich in Chrome über „App installieren“ auf den Startbildschirm legen. Der Fortschritt liegt zuerst auf dem Gerät. Wer sich unter „Für Eltern“ anmeldet, gleicht ihn mit dem Familienspeicher ab (`familie-sync.js`); dort landen auch Lesezeiten und Trefferquoten je Kapitel zum Auswerten.

@@ -209,6 +209,7 @@ footer{margin-top:26px;text-align:center}
 <div id="toast" class="toast" hidden></div>
 
 <script src="inhalte.js"></script>
+<script src="familie-sync.js"></script>
 <script>
 "use strict";
 const KEY="spuernase-v1";
@@ -216,7 +217,9 @@ const FALL=window.FAELLE||[];
 const SPF=f=>f.spuren||{};
 let mem=null;
 function load(){try{const t=localStorage.getItem(KEY);return t?JSON.parse(t):null;}catch(e){return mem;}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){mem=JSON.parse(JSON.stringify(S));}}
+function store(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){mem=JSON.parse(JSON.stringify(S));}}
+const FSY=window.FamilieSync;const APP_ID="spuernase";
+function save(){if(FSY)FSY.stamp(S);store();if(FSY)FSY.saved();}
 function fresh(){return{v:2,lupen:0,size:1,ziel:1,days:{},log:{},faelle:{}};}
 let S=Object.assign(fresh(),load()||{});
 if(!S.log)S.log={};if(!S.ziel)S.ziel=1;
@@ -431,14 +434,15 @@ function eltern(){
   const v=vorrat(),tageV=Math.floor(v/S.ziel);
   return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Zurück</button><span class="type small muted">Für Eltern</span></div>
   <div class="stack" style="margin-top:14px">
-    <h1>Lesestand</h1>
-    <div class="panel stack"><h2>Tagesziel</h2><div class="seg">${[1,2].map(n=>`<button data-a="ziel" data-v="${n}" aria-pressed="${S.ziel===n}">${n} Kapitel</button>`).join("")}</div><p class="small muted">Das Tagesziel zählt für die Serie. Weiterlesen ist immer erlaubt: Jedes Kapitel über dem Ziel ist ein Bonus-Kapitel mit 3 Extra-Lupen. Der nächste Fall wird freigeschaltet, sobald der aktuelle gelöst ist.</p></div>
+    <h1>Lesestand${UI.child?" von "+esc(UI.child.name):""}</h1>
+    ${UI.child?`<div class="panel stack"><p class="small">Stand aus dem Familienspeicher vom ${UI.child.at.toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})} Uhr.</p><button class="btn ghost sm" data-a="kidback">Zurück zu diesem Gerät</button></div>`:FSY?FSY.panelHTML():""}
+    ${UI.child?"":`<div class="panel stack"><h2>Tagesziel</h2><div class="seg">${[1,2].map(n=>`<button data-a="ziel" data-v="${n}" aria-pressed="${S.ziel===n}">${n} Kapitel</button>`).join("")}</div><p class="small muted">Das Tagesziel zählt für die Serie. Weiterlesen ist immer erlaubt: Jedes Kapitel über dem Ziel ist ein Bonus-Kapitel mit 3 Extra-Lupen. Der nächste Fall wird freigeschaltet, sobald der aktuelle gelöst ist.</p></div>`}
     <div class="panel stack"><h2>Vorrat</h2><p><b>${v} ungelesene ${v===1?"Kapitel":"Kapitel"}</b>${v?`, das reicht bei ${S.ziel} ${S.ziel===1?"Kapitel":"Kapiteln"} am Tag für etwa ${tageV} ${tageV===1?"Tag":"Tage"}.`:"."}</p>${v<4?`<p class="small" style="color:var(--stamp);font-weight:800">Bald Nachschub nötig: Neue Fälle kommen per Update dazu, der Fortschritt bleibt erhalten.</p>`:""}</div>
     <div class="panel stack"><h2>Letzte 14 Tage</h2><table><thead><tr><th>Tag</th><th class="n">Kapitel</th><th class="n">Lesezeit</th></tr></thead><tbody>${drows}</tbody></table></div>
     <div class="panel stack"><h2>Kapitel</h2><div class="scrollx"><table><thead><tr><th>Kapitel</th><th class="n">Wörter</th><th class="n">Lesezeit</th><th class="n">Wörter/Min</th><th class="n">1. Versuch</th></tr></thead><tbody>${rows}</tbody></table></div><p class="small muted">Die Lesezeit läuft vom Öffnen des Kapitels bis „Fertig gelesen“, pausiert, wenn die App im Hintergrund ist, und wird Philip nicht angezeigt. Richtwert 5. Klasse, leise gelesen: grob 100 bis 150 Wörter pro Minute.</p></div>
     <div class="panel stack"><h2>Fragetypen beim 1. Versuch richtig</h2><table><tbody>${trows}</tbody></table><p class="small muted">Fakt = Information finden · Wort = Bedeutung aus dem Zusammenhang · Schlussfolgern = zwischen den Zeilen lesen · Beweis = Textstelle belegen · Reihenfolge = Handlung ordnen.</p></div>
     <div class="panel stack"><h2>Stufen</h2><table><tbody><tr><td class="nw">Stufe 1</td><td>ca. 250–330 Wörter je Kapitel, 2–3 Min.</td></tr><tr><td class="nw">Stufe 2</td><td>ca. 350–450 Wörter, 3–4 Min.</td></tr><tr><td class="nw">Stufe 3</td><td>ca. 600–700 Wörter, 5–6 Min.</td></tr><tr><td class="nw">Stufe 4</td><td>ab 1000 Wörter, 8 Min. und mehr</td></tr></tbody></table><p class="small muted">Die Kapitel werden von Fall zu Fall etwas länger. Sitzen die Fragen gut, geht es schneller zur nächsten Stufe. Länger wird der Text, das Tempo bleibt frei.</p></div>
-    <div class="panel stack"><h2>Zurücksetzen</h2>${UI.resetAsk?`<p>Wirklich alles löschen, auch Lupen und Serie?</p><div class="row"><button class="btn red sm" data-a="reset2">Ja, löschen</button><button class="btn ghost sm" data-a="reset0">Abbrechen</button></div>`:`<button class="btn ghost sm" data-a="reset1">Fortschritt zurücksetzen</button>`}</div>
+    ${UI.child?"":`<div class="panel stack"><h2>Zurücksetzen</h2>${UI.resetAsk?`<p>Wirklich alles löschen, auch Lupen und Serie?</p><div class="row"><button class="btn red sm" data-a="reset2">Ja, löschen</button><button class="btn ghost sm" data-a="reset0">Abbrechen</button></div>`:`<button class="btn ghost sm" data-a="reset1">Fortschritt zurücksetzen</button>`}</div>`}
   </div>`;
 }
 
@@ -446,9 +450,10 @@ function eltern(){
 function render(){
   document.documentElement.style.setProperty("--read",[17,19,22,25][S.size]+"px");
   const v={home,read,quiz,kapFertig,akte,anklage,loesung,eltern}[UI.view]||home;
-  $("#app").innerHTML=v();
+  if(UI.view==="eltern"&&UI.child){const own=S;S=Object.assign(fresh(),UI.child.data);if(!S.log)S.log={};try{$("#app").innerHTML=v();}finally{S=own;}}
+  else $("#app").innerHTML=v();
 }
-function go(view,top=true){UI.view=view;render();if(top)window.scrollTo(0,0);}
+function go(view,top=true){if(view!=="eltern")UI.child=null;UI.view=view;render();if(top)window.scrollTo(0,0);}
 
 /* Lesezeit, pausiert im Hintergrund */
 function readStart(){UI.readAcc=0;UI.readStart=Date.now();}
@@ -490,7 +495,10 @@ document.addEventListener("click",e=>{
         if(firstRun){rec.first=rec.res.filter(Boolean).length;rec.typen=kap.fragen.map((q,i)=>[q.typ,!!rec.res[i]]);rec.fertig=true;rec.lupen+=5;
           const L=S.log[today()]||(S.log[today()]={kap:0,min:0});L.kap++;L.min+=Math.round((rec.ms||0)/6000)/10;
           if(L.kap>S.ziel){UI.bonus=3;rec.lupen+=3;}else if(L.kap===S.ziel)UI.zielNeu=true;
-          S.lupen+=rec.lupen;S.days[today()]=true;}else rec.lupen=0;
+          S.lupen+=rec.lupen;S.days[today()]=true;
+          if(FSY){const w=words(kap.absaetze),min=rec.ms&&rec.ms>=6000?rec.ms/60000:null;
+            FSY.log(APP_ID,"kapitel",{fall:f.nr,fall_titel:f.titel,kapitel:UI.k+1,woerter:w,minuten:min?Math.round(min*10)/10:null,wpm:min?Math.round(w/min):null,richtig:rec.first,fragen:kap.fragen.length,typen:rec.typen,bonus:L.kap>S.ziel});}}
+        else rec.lupen=0;
         save();go("kapFertig");}break;}
     case"akte":go("akte");break;
     case"anklage":UI.anklage=null;UI.beweise=[];UI.ankMsg=null;go("anklage");break;
@@ -499,12 +507,13 @@ document.addEventListener("click",e=>{
     case"bew":{const k=b.dataset.k,i=UI.beweise.indexOf(k);if(i>=0)UI.beweise.splice(i,1);else if(UI.beweise.length<2)UI.beweise.push(k);UI.ankMsg=null;render();break;}
     case"anklagen":{const A=f.anklage,ok=UI.beweise.every(k=>A.beweise.includes(k))&&UI.beweise.some(k=>A.muss.includes(k));
       if(!ok){UI.ankOk=false;UI.ankMsg=UI.beweise.some(k=>!A.beweise.includes(k))?A.hinweisFalsch:A.hinweisSchwach;render();break;}
-      const st=fs(f.id);if(!st.geloest){st.geloest=true;S.lupen+=15;S.days[today()]=true;save();toast("+15 Lupen für den gelösten Fall!");}
+      const st=fs(f.id);if(!st.geloest){st.geloest=true;S.lupen+=15;S.days[today()]=true;save();if(FSY)FSY.log(APP_ID,"fall_geloest",{fall:f.nr,fall_titel:f.titel});toast("+15 Lupen für den gelösten Fall!");}
       go("loesung");break;}
     case"loesung":go("loesung");break;
     case"archiv":UI.f=+b.dataset.f;go("loesung");break;
     case"ziel":S.ziel=+b.dataset.v;save();render();break;
     case"eltern":UI.resetAsk=false;go("eltern");break;
+    case"kidback":UI.child=null;render();window.scrollTo(0,0);break;
     case"reset1":UI.resetAsk=true;render();break;
     case"reset0":UI.resetAsk=false;render();break;
     case"reset2":S=fresh();save();UI.resetAsk=false;SEEN.clear();UI.f=0;toast("Fortschritt gelöscht.");go("home");break;
@@ -514,6 +523,11 @@ document.addEventListener("click",e=>{
 {const i=aktIdx();UI.f=i<0?FALL.length-1:i;}
 Object.entries(S.faelle).forEach(([id,x])=>(x.spuren||[]).forEach(k=>SEEN.add(id+k)));
 render();
+if(FSY)FSY.attach({app:APP_ID,get:()=>S,store,render:()=>render(),
+  set:d=>{S=Object.assign(fresh(),d);if(!S.log)S.log={};if(!S.ziel)S.ziel=1;const i=aktIdx();UI.f=i<0?FALL.length-1:i;Object.entries(S.faelle).forEach(([id,x])=>(x.spuren||[]).forEach(k=>SEEN.add(id+k)));},
+  idle:()=>!["read","quiz","anklage"].includes(UI.view),
+  hasProgress:()=>S.lupen>0||Object.keys(S.faelle).length>0,
+  showChild:(data,info)=>{UI.child=Object.assign({data},info);UI.view="eltern";render();window.scrollTo(0,0);}});
 try{if("serviceWorker" in navigator&&/github\.io$/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{});}catch(e){}
 </script>
 
