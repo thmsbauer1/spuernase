@@ -86,6 +86,24 @@ button{font:inherit;color:inherit}
 .week span{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.62rem;font-weight:800;color:var(--muted);line-height:1}
 .week i{width:18px;height:18px;border:3px solid var(--line);background:var(--chip);display:block}
 .week i.on{background:var(--gold)}
+.week i{display:grid;place-items:center;font-size:.6rem;font-weight:800;color:#231f19;font-style:normal}
+.goal{display:flex;gap:4px 8px;align-items:center;font-weight:800;font-size:.9rem;flex-wrap:wrap}
+.goal>span{white-space:nowrap}
+.wrap{overflow-x:clip}
+td.nw{white-space:nowrap}
+.goal .dot{width:18px;height:18px;border:3px solid var(--line);background:var(--chip);flex:none}
+.goal .dot.on{background:var(--ok)}
+.archiv{display:flex;flex-direction:column;gap:8px}
+.arow{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:10px;align-items:center;border:3px solid var(--line);background:var(--panel);padding:8px 10px;box-shadow:3px 3px 0 var(--line)}
+.arow:focus-visible{outline:3px dashed var(--accent)}
+.arow .nr{font-family:var(--f-type);font-size:.8rem;color:var(--muted);flex:none}
+.arow b{flex:1;min-width:0;font-weight:800}
+.arow .ok{font-family:var(--f-type);color:var(--stamp);font-size:.8rem;flex:none}
+.bonus{display:inline-block;font-family:var(--f-display);background:var(--gold);color:#231f19;border:3px solid var(--line);padding:4px 10px;transform:rotate(2deg)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{all:unset;cursor:pointer;border:3px solid var(--line);background:var(--panel);padding:6px 12px;font-weight:800;box-shadow:2px 2px 0 var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.seg button:focus-visible{outline:3px dashed var(--accent)}
 .week span.today{color:var(--ink)}
 .rank{font-family:var(--f-display);font-size:.95rem}
 .bar{height:14px;border:3px solid var(--line);background:var(--chip);position:relative}
@@ -194,15 +212,17 @@ footer{margin-top:26px;text-align:center}
 <script>
 "use strict";
 const KEY="spuernase-v1";
-const FALL=window.FAELLE||[], SP=window.SPUREN||{};
+const FALL=window.FAELLE||[];
+const SPF=f=>f.spuren||{};
 let mem=null;
 function load(){try{const t=localStorage.getItem(KEY);return t?JSON.parse(t):null;}catch(e){return mem;}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){mem=JSON.parse(JSON.stringify(S));}}
-function fresh(){return{v:1,lupen:0,size:1,days:{},faelle:{}};}
-let S=load()||fresh();
+function fresh(){return{v:2,lupen:0,size:1,ziel:1,days:{},log:{},faelle:{}};}
+let S=Object.assign(fresh(),load()||{});
+if(!S.log)S.log={};if(!S.ziel)S.ziel=1;
 function fs(id){if(!S.faelle[id])S.faelle[id]={kap:{},spuren:[],geloest:false};return S.faelle[id];}
 
-const UI={view:"home",f:0,k:0,qi:0,q:null,readStart:0,readAcc:0,peek:false,anklage:null,beweise:[],say:null};
+const UI={view:"home",f:0,bonus:0,k:0,qi:0,q:null,readStart:0,readAcc:0,peek:false,anklage:null,beweise:[],say:null};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function iso(d){const z=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate());}
@@ -223,26 +243,30 @@ const LC={K:"#2a1e16",H:"#8c6838",h:"#5c4224",D:"#6e3e22",B:"#b06e3a",L:"#eecea0
 function lupoSVG(){let r="";LUPO.forEach((row,y)=>{[...row].forEach((c,x)=>{if(LC[c])r+=`<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${LC[c]}"/>`;});});return`<svg viewBox="0 0 22 20" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`;}
 const LUPE=`<svg viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="1" width="5" height="1" fill="#2a1e16"/><rect x="1" y="2" width="1" height="5" fill="#2a1e16"/><rect x="7" y="2" width="1" height="5" fill="#2a1e16"/><rect x="2" y="7" width="5" height="1" fill="#2a1e16"/><rect x="2" y="2" width="5" height="5" fill="#bae2f0"/><rect x="3" y="3" width="1" height="1" fill="#fff"/><rect x="7" y="7" width="2" height="2" fill="#e2b03a"/><rect x="9" y="9" width="2" height="2" fill="#e2b03a"/></svg>`;
 
-const SLOTS=[[10,14,-4],[84,18,3],[158,8,-2],[230,14,4],[284,56,-3],[84,60,2],[226,108,3],[150,112,-2]];
+const SLOTS=[[10,14,-4],[84,18,3],[158,8,-2],[230,14,4],[284,50,-3],[84,62,2],[226,106,3],[150,112,-2],[286,106,-3],[10,60,3]];
 const SEEN=new Set();
 function boardSVG(fid){
   const st=fs(fid), found=st.spuren;
   let cork="";for(let i=0;i<70;i++){const x=(i*53)%356+2,y=(i*37)%140+6;cork+=`<rect x="${x}" y="${y}" width="2" height="2" fill="var(--corkdot)"/>`;}
-  const keys=Object.keys(SP);
+  const f=FALL.find(x=>x.id===fid),SP=SPF(f),keys=Object.keys(SP);
   const cards=found.map(k=>{const i=keys.indexOf(k),[x,y,r]=SLOTS[i%SLOTS.length];return{k,x,y,r};});
   const yarn=cards.length?`<polyline points="${["180,78"].concat(cards.map(c=>(c.x+30)+","+(c.y+6))).join(" ")}" fill="none" stroke="var(--yarn)" stroke-width="1.6"/>`:"";
   const solved=st.geloest;
-  const center=`<g transform="translate(150 58) rotate(-2)"><rect width="60" height="44" fill="var(--card)" stroke="var(--cardline)" stroke-width="1"/><text x="30" y="${solved?20:30}" text-anchor="middle" font-family="Pixelify Sans,monospace" font-size="${solved?13:22}" fill="#231f19">${solved?"GELÖST":"?"}</text>${solved?`<text x="30" y="35" text-anchor="middle" font-family="Special Elite,monospace" font-size="8.5" fill="#b33a2c">Marco</text>`:""}<rect x="-1" y="-1" width="62" height="5" fill="#e6b440"/><circle cx="30" cy="2" r="3.4" fill="var(--pin)" stroke="#231f19" stroke-width=".8"/></g>`;
-  const cs=cards.map(c=>`<g transform="translate(${c.x} ${c.y}) rotate(${c.r})"><g class="${SEEN.has(c.k)?"":"cardin"}"><rect width="64" height="26" fill="var(--card)" stroke="var(--cardline)" stroke-width="1"/><line x1="4" y1="9" x2="60" y2="9" stroke="#e5a9a3" stroke-width=".8"/><text x="32" y="20" text-anchor="middle" font-family="Special Elite,monospace" font-size="9.5" fill="#231f19">${esc(SP[c.k].kurz)}</text><circle cx="30" cy="5" r="3" fill="var(--pin)" stroke="#231f19" stroke-width=".8"/></g></g>`).join("");
-  cards.forEach(c=>SEEN.add(c.k));
+  const center=`<g transform="translate(150 58) rotate(-2)"><rect width="60" height="44" fill="var(--card)" stroke="var(--cardline)" stroke-width="1"/><text x="30" y="${solved?20:30}" text-anchor="middle" font-family="Pixelify Sans,monospace" font-size="${solved?13:22}" fill="#231f19">${solved?"GELÖST":"?"}</text>${solved?`<text x="30" y="35" text-anchor="middle" font-family="Special Elite,monospace" font-size="8.5" fill="#b33a2c">${esc((f.anklage&&f.anklage.kurz)||"")}</text>`:""}<rect x="-1" y="-1" width="62" height="5" fill="#e6b440"/><circle cx="30" cy="2" r="3.4" fill="var(--pin)" stroke="#231f19" stroke-width=".8"/></g>`;
+  const cs=cards.map(c=>`<g transform="translate(${c.x} ${c.y}) rotate(${c.r})"><g class="${SEEN.has(fid+c.k)?"":"cardin"}"><rect width="64" height="26" fill="var(--card)" stroke="var(--cardline)" stroke-width="1"/><line x1="4" y1="9" x2="60" y2="9" stroke="#e5a9a3" stroke-width=".8"/><text x="32" y="20" text-anchor="middle" font-family="Special Elite,monospace" font-size="9.5" fill="#231f19"${SP[c.k].kurz.length>9?' textLength="56" lengthAdjust="spacingAndGlyphs"':''}>${esc(SP[c.k].kurz)}</text><circle cx="30" cy="5" r="3" fill="var(--pin)" stroke="#231f19" stroke-width=".8"/></g></g>`).join("");
+  cards.forEach(c=>SEEN.add(fid+c.k));
   return`<svg class="bg" viewBox="0 0 360 150" aria-hidden="true"><rect width="360" height="150" fill="var(--frame)"/><rect x="6" y="6" width="348" height="138" fill="var(--cork)"/><rect x="6" y="6" width="348" height="138" fill="none" stroke="var(--cork2)" stroke-width="3"/>${cork}${yarn}${center}${cs}</svg>`;
 }
 
 /* ---------- Fortschritt ---------- */
+function aktIdx(){for(let i=0;i<FALL.length;i++)if(!fs(FALL[i].id).geloest)return i;return -1;}
+function heute(){return S.log[today()]||{kap:0,min:0};}
+function weekKeys(){const d=new Date(),wd=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-wd);const k=[];for(let i=0;i<7;i++){const x=new Date(mon);x.setDate(mon.getDate()+i);k.push(iso(x));}return k;}
+function vorrat(){let n=0;FALL.forEach(f=>f.kapitel.forEach((k,i)=>{if(!kapDone(f.id,i))n++;}));return n;}
 const RANG=[[0,"Anfänger"],[25,"Spurensucher"],[60,"Spürnase"],[120,"Kommissar"],[220,"Meisterdetektiv"]];
 function rang(){let r=RANG[0],n=null;for(let i=0;i<RANG.length;i++){if(S.lupen>=RANG[i][0]){r=RANG[i];n=RANG[i+1]||null;}}return{r,n};}
 function serie(){let d=new Date(),n=0;if(!S.days[iso(d)])d.setDate(d.getDate()-1);while(S.days[iso(d)]){n++;d.setDate(d.getDate()-1);}return n;}
-function weekHTML(){const d=new Date(),wd=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-wd);const L=["Mo","Di","Mi","Do","Fr","Sa","So"];let h="";for(let i=0;i<7;i++){const x=new Date(mon);x.setDate(mon.getDate()+i);h+=`<span class="${i===wd?"today":""}"><i class="${S.days[iso(x)]?"on":""}"></i>${L[i]}</span>`;}return`<div class="week" aria-label="Lesetage diese Woche">${h}</div>`;}
+function weekHTML(){const d=new Date(),wd=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-wd);const L=["Mo","Di","Mi","Do","Fr","Sa","So"];let h="";for(let i=0;i<7;i++){const x=new Date(mon);x.setDate(mon.getDate()+i);const c=(S.log[iso(x)]||{}).kap||0;h+=`<span class="${i===wd?"today":""}"><i class="${S.days[iso(x)]?"on":""}">${c>1?c:""}</i>${L[i]}</span>`;}return`<div class="week" aria-label="Lesetage diese Woche">${h}</div>`;}
 function kapDone(fid,k){const x=fs(fid).kap[k];return!!(x&&x.fertig);}
 function nextStep(f){for(let k=0;k<f.kapitel.length;k++)if(!kapDone(f.id,k))return k;return fs(f.id).geloest?"fertig":"anklage";}
 function addSpur(fid,k){const st=fs(fid);if(k&&!st.spuren.includes(k)){st.spuren.push(k);return true;}return false;}
@@ -251,33 +275,47 @@ function addSpur(fid,k){const st=fs(fid);if(k&&!st.spuren.includes(k)){st.spuren
 function lupoSays(text,cls){return`<div class="say"><div class="bubble ${cls||""}" role="status"><span class="who">Lupo</span>${text}</div></div>`;}
 const TIPPS=["Lies in Ruhe. Spuren verstecken sich oft in kleinen Sätzen.","Nachschauen ist erlaubt! Gute Detektive lesen Stellen zweimal.","Wenn ein Wort neu ist: Lies den Satz davor und danach.","Frag dich beim Lesen: Wer? Wann? Wo? Warum?"];
 
+const ankLabel=f=>f.anklage.titel?"Fall lösen":"Zur Anklage";
 function home(){
-  const f=FALL[UI.f], st=fs(f.id), step=nextStep(f), {r,n}=rang();
-  const labels=f.kapitel.map((k,i)=>`Kap. ${i+1}`).concat(["Anklage"]);
+  const akt=aktIdx(), alle=akt<0;
+  const f=FALL[UI.f], st=fs(f.id), step=nextStep(f), {r,n}=rang(), H=heute();
+  const labels=f.kapitel.map((k,i)=>`Kap. ${i+1}`).concat([f.anklage.titel?"Lösung":"Anklage"]);
   const cur=step==="anklage"?f.kapitel.length:step==="fertig"?99:step;
   const steps=labels.map((l,i)=>{const done=i<f.kapitel.length?kapDone(f.id,i):st.geloest;return done&&i<f.kapitel.length?`<button class="done" data-a="read" data-k="${i}" aria-label="Kapitel ${i+1} nochmal lesen">${l} ✓</button>`:`<div class="${done?"done":i===cur?"now":""}">${l}</div>`;}).join("");
+  const zielOk=H.kap>=S.ziel;
   let btn,msg;
-  if(step==="fertig"){btn=`<button class="btn big ghost" data-a="loesung">Auflösung nochmal lesen</button>`;msg="Fall gelöst! Der nächste Fall ist schon in Arbeit.";}
-  else if(step==="anklage"){btn=`<button class="btn big red" data-a="anklage">Zur Anklage</button>`;msg="Du hast alle Spuren gesammelt. Wer hat den Pokal?";}
-  else{const w=words(f.kapitel[step].absaetze);btn=`<button class="btn big" data-a="read" data-k="${step}">Kapitel ${step+1} lesen · ca. ${minuten(w)} Min.</button>`;msg=step===0?"Hallo Philip! Ich bin Lupo. Ein neuer Fall wartet auf uns.":(f.kapitel[step-1].weiter||"Weiter geht's!");}
+  if(step==="fertig"){btn=`<button class="btn big ghost" data-a="loesung">Auflösung nochmal lesen</button>`;msg="Alle Fälle gelöst! Lupo schnüffelt schon nach neuen Fällen.";}
+  else if(step==="anklage"){btn=`<button class="btn big red" data-a="anklage">${ankLabel(f)}</button>`;msg=`Du hast alle Spuren gesammelt. ${f.anklage.frage}`;}
+  else{const w=words(f.kapitel[step].absaetze);
+    btn=`<button class="btn big" data-a="read" data-k="${step}">${zielOk?"Bonus-":""}Kapitel ${step+1} lesen · ca. ${minuten(w)} Min.</button>`;
+    if(zielOk)msg=H.kap>S.ziel?`Schon ${H.kap} Kapitel heute, stark! Weiterlesen ist erlaubt, jedes Bonus-Kapitel bringt Extra-Lupen.`:"Tagesziel geschafft! Du darfst gern weiterlesen. Jedes weitere Kapitel heute ist ein Bonus-Kapitel mit Extra-Lupen.";
+    else if(step===0)msg=f.nr===1?"Hallo Philip! Ich bin Lupo. Ein neuer Fall wartet auf uns.":`Neue Akte auf dem Tisch: ein ${f.art}. Los geht's!`;
+    else msg=f.kapitel[step-1].weiter||"Weiter geht's!";}
   if(UI.say)msg=UI.say;
   const pct=n?Math.min(100,Math.round((S.lupen-r[0])/(n[0]-r[0])*100)):100;
-  const bald=(window.BALD||[]).map(b=>`<div class="panel locked stack" style="gap:4px"><span class="type small muted">Fall ${b.nr} · ${esc(b.art)} · bald</span><h2>${esc(b.titel)}</h2><p class="small muted">${esc(b.text)}</p></div>`).join("");
+  const woche=weekKeys().reduce((a,k)=>a+((S.log[k]||{}).kap||0),0);
+  const geloest=FALL.filter((x,i)=>fs(x.id).geloest&&i!==UI.f);
+  const archiv=geloest.length?`<div class="panel stack"><h2>Gelöste Fälle</h2><div class="archiv">${geloest.map(x=>`<button class="arow" data-a="archiv" data-f="${FALL.indexOf(x)}"><span class="nr">Akte ${x.nr}</span><b>${esc(x.titel)}</b><span class="ok">GELÖST</span></button>`).join("")}</div></div>`:"";
+  const next=FALL.filter((x,i)=>i>UI.f&&!fs(x.id).geloest);
+  const zu=next.map((x,j)=>`<div class="panel locked stack" style="gap:4px"><span class="type small muted">Akte Nr. ${x.nr} · ${esc(x.art)} · Stufe ${x.stufe}</span><h2>${esc(x.titel)}</h2><p class="small muted">${j===0?`Wird freigeschaltet, wenn du „${esc(f.titel)}“ gelöst hast.`:"Kommt danach."}</p></div>`).join("")
+    +(next.length<2?`<div class="panel locked stack" style="gap:4px"><span class="type small muted">Weitere Akten</span><p class="small muted">Neue Fälle sind in Arbeit.</p></div>`:"");
   return`<div class="board">${boardSVG(f.id)}<button class="lupo" data-a="lupo" aria-label="Lupo">${lupoSVG()}</button></div>
   ${lupoSays(esc(msg))}
   <div class="stack" style="margin-top:16px">
     <div class="panel stats">
       <div class="lupen">${LUPE}<span>${S.lupen}</span></div>${weekHTML()}
       <div class="rank">${esc(r[1])}</div><div><div class="bar" aria-hidden="true"><i style="width:${pct}%"></i></div><div class="small muted" style="margin-top:3px">${n?`Noch ${n[0]-S.lupen} Lupen bis „${esc(n[1])}“`:"Höchster Rang erreicht"} · Serie: ${serie()} ${serie()===1?"Tag":"Tage"}</div></div>
+      <div class="goal" style="grid-column:1/-1"><span class="dot ${zielOk?"on":""}"></span><span>Tagesziel: ${S.ziel} ${S.ziel===1?"Kapitel":"Kapitel"}${zielOk?" ✓":""}</span><span class="muted small" style="margin-left:auto">Diese Woche: ${woche} Kapitel</span></div>
     </div>
     <div class="panel case stack">
       <span class="tab">Akte Nr. ${f.nr}</span>
-      <div><span class="type small muted">Stufe ${f.stufe} · ${esc(f.ort)}</span><h2 style="margin-top:2px;padding-right:90px">${esc(f.titel)}</h2></div>
-      <div class="steps">${steps}</div>
+      <div><span class="type small muted">${esc(f.art||"")} · Stufe ${f.stufe}</span><h2 style="margin-top:2px;padding-right:90px">${esc(f.titel)}</h2></div>
+      <div class="steps" style="grid-template-columns:repeat(${labels.length},minmax(0,1fr))">${steps}</div>
       ${btn}
       <button class="btn ghost" data-a="akte">Fall-Akte öffnen · ${st.spuren.length} ${st.spuren.length===1?"Spur":"Spuren"}</button>
     </div>
-    ${bald}
+    ${alle?"":zu}
+    ${archiv}
   </div>
   <footer><button class="linkbtn small" data-a="eltern">Für Eltern</button></footer>`;
 }
@@ -292,7 +330,7 @@ function read(){
 
 const TYP={fakt:"Fakt",wort:"Wort",schluss:"Schlussfolgern",beweis:"Beweis",reihe:"Reihenfolge"};
 function quiz(){
-  const f=FALL[UI.f],kap=f.kapitel[UI.k],q=kap.fragen[UI.qi],Q=UI.q;
+  const f=FALL[UI.f],kap=f.kapitel[UI.k],q=kap.fragen[UI.qi],Q=UI.q,SP=SPF(f);
   const prog=kap.fragen.map((_,i)=>`<i class="${i<UI.qi?"on":i===UI.qi?"now":""}"></i>`).join("");
   let body="";
   if(q.typ==="beweis"){
@@ -321,46 +359,47 @@ function quiz(){
 }
 
 function kapFertig(){
-  const f=FALL[UI.f],kap=f.kapitel[UI.k],rec=fs(f.id).kap[UI.k],last=UI.k===f.kapitel.length-1;
+  const f=FALL[UI.f],kap=f.kapitel[UI.k],rec=fs(f.id).kap[UI.k],last=UI.k===f.kapitel.length-1,SP=SPF(f),done=fs(f.id).geloest;
   const sp=kap.fragen.filter(q=>q.spur).map(q=>q.spur);
   return`<div class="stack center" style="margin-top:28px;align-items:center">
-    <span class="stamp">KAPITEL ${UI.k+1} GESCHAFFT</span>
+    <span class="stamp">KAPITEL ${UI.k+1} GESCHAFFT</span>${UI.zielNeu?`<div class="goal" style="margin-top:14px"><span class="dot on"></span>Tagesziel geschafft!</div>`:""}
     <div class="lupen" style="justify-content:center;margin-top:10px">${LUPE}<span>+${rec.lupen||0}</span></div>
   </div>
   <div class="stack" style="margin-top:16px">
     <div class="panel stack"><h2>Neue Spuren in der Akte</h2><div class="akte">${sp.map(k=>`<div class="idx"><span class="h">${esc(SP[k].kurz)}</span>${esc(SP[k].lang)}</div>`).join("")}</div></div>
     ${lupoSays(esc(kap.weiter||""))}
-    <button class="btn big ${last?"red":""}" data-a="${last?"anklage":"home"}">${last?"Zur Anklage":"Zur Pinnwand"}</button>
-    ${last?`<button class="btn ghost" data-a="home">Erst später</button>`:""}
+    ${UI.bonus?`<div class="center"><span class="bonus">Bonus-Kapitel! +${UI.bonus} Extra-Lupen</span></div>`:""}
+    <button class="btn big ${last&&!done?"red":""}" data-a="${last&&!done?"anklage":"home"}">${last&&!done?ankLabel(f):"Zur Pinnwand"}</button>
+    ${last&&!done?`<button class="btn ghost" data-a="home">Erst später</button>`:""}
   </div>`;
 }
 
 function akte(){
-  const f=FALL[UI.f],st=fs(f.id);
-  const sus=f.verdaechtige.map(v=>{const out=v.raus&&st.spuren.includes(v.raus);return`<div class="susc ${out?"out":""}"><div class="face" style="background:${v.farbe}">${esc(v.name.split(" ").pop()[0])}</div><div style="min-width:0"><div class="nm">${esc(v.name)}</div><div class="rl">${esc(v.rolle)}</div>${out?`<div class="why">${esc(v.grund)}</div>`:""}</div></div>`;}).join("");
+  const f=FALL[UI.f],st=fs(f.id),SP=SPF(f);
+  const sus=f.verdaechtige.map(v=>{const out=v.raus&&st.spuren.includes(v.raus);return`<div class="susc ${out?"out":""}"><div class="face" style="background:${v.farbe}">${esc(v.zeichen||v.name.split(" ").pop()[0])}</div><div style="min-width:0"><div class="nm">${esc(v.name)}</div><div class="rl">${esc(v.rolle)}</div>${out?`<div class="why">${esc(v.grund)}</div>`:""}</div></div>`;}).join("");
   const keys=f.kapitel.flatMap(k=>k.fragen.filter(q=>q.spur).map(q=>q.spur));
   const cards=keys.map(k=>st.spuren.includes(k)?`<div class="idx"><span class="h">${esc(SP[k].kurz)}</span>${esc(SP[k].lang)}</div>`:`<div class="idx leer">???</div>`).join("");
   return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Pinnwand</button><span class="type small muted">Akte Nr. ${f.nr}</span></div>
   <div class="stack" style="margin-top:14px">
     <h1>${esc(f.titel)}</h1>
-    <div class="panel stack"><h2>Verdächtige</h2><div class="sus">${sus}</div></div>
+    <div class="panel stack"><h2>${esc(f.liste||"Verdächtige")}</h2><div class="sus">${sus}</div></div>
     <div class="panel stack"><h2>Spuren · ${st.spuren.length} von ${keys.length}</h2><div class="akte">${cards}</div></div>
   </div>`;
 }
 
 function anklage(){
-  const f=FALL[UI.f],st=fs(f.id),A=f.anklage;
+  const f=FALL[UI.f],st=fs(f.id),A=f.anklage,SP=SPF(f);
   const step=UI.anklage===A.taeter?2:1;
-  const sus=f.verdaechtige.map(v=>`<button class="susc ${UI.anklage===v.id?"pick":""}" data-a="sus" data-id="${v.id}" ${step===2?"disabled":""}><div class="face" style="background:${v.farbe}">${esc(v.name.split(" ").pop()[0])}</div><div style="min-width:0"><div class="nm">${esc(v.name)}</div><div class="rl">${esc(v.rolle)}</div></div></button>`).join("");
+  const sus=f.verdaechtige.map(v=>`<button class="susc ${UI.anklage===v.id?"pick":""}" data-a="sus" data-id="${v.id}" ${step===2?"disabled":""}><div class="face" style="background:${v.farbe}">${esc(v.zeichen||v.name.split(" ").pop()[0])}</div><div style="min-width:0"><div class="nm">${esc(v.name)}</div><div class="rl">${esc(v.rolle)}</div></div></button>`).join("");
   let fb="",part2="";
   if(UI.ankMsg)fb=lupoSays(esc(UI.ankMsg),UI.ankOk?"ok":"no");
   if(step===2){
     const opts=st.spuren.map(k=>`<button class="opt ${UI.beweise.includes(k)?"sel":""}" data-a="bew" data-k="${k}"><span><b class="type">${esc(SP[k].kurz)}</b><br>${esc(SP[k].lang)}</span></button>`).join("");
-    part2=`<div class="panel stack" style="gap:6px"><span><span class="qchip beweis">Beweis</span></span><p class="qtext">Welche zwei Spuren beweisen es am besten? Wähle genau zwei.</p></div><div class="opts">${opts}</div><button class="btn big red" data-a="anklagen" ${UI.beweise.length===2?"":"disabled"}>Anklage erheben</button>`;
+    part2=`<div class="panel stack" style="gap:6px"><span><span class="qchip beweis">Beweis</span></span><p class="qtext">Welche zwei Spuren beweisen es am besten? Wähle genau zwei.</p></div><div class="opts">${opts}</div><button class="btn big red" data-a="anklagen" ${UI.beweise.length===2?"":"disabled"}>${esc(A.knopf||"Anklage erheben")}</button>`;
   }
-  return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Pinnwand</button><span class="type small muted">Anklage</span></div>
+  return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Pinnwand</button><span class="type small muted">${esc(A.titel||"Anklage")}</span></div>
   <div class="stack" style="margin-top:14px">
-    <div class="panel stack" style="gap:6px"><span><span class="qchip">Schlussfolgern</span></span><p class="qtext">Wer hat den Pokal aus der Vitrine genommen?</p></div>
+    <div class="panel stack" style="gap:6px"><span><span class="qchip">Schlussfolgern</span></span><p class="qtext">${esc(A.frage)}</p></div>
     <div class="sus">${sus}</div>
     ${fb}${part2}
   </div>`;
@@ -373,21 +412,32 @@ function loesung(){
   <article class="leseblatt" style="margin-top:20px"><div class="kopf">Akte Nr. ${f.nr} · Auflösung</div><h1>${esc(a.titel)}</h1>${textHTML(a.absaetze)}</article>
   <div class="stack" style="margin-top:16px">
     <div class="talk"><span class="h">Erzähl's Papa</span>${esc(a.erzaehl)}</div>
+    ${(()=>{const nx=FALL[UI.f+1];return nx&&!kapDone(nx.id,0)?lupoSays(esc(`Neue Akte freigeschaltet: „${nx.titel}“. Ein ${nx.art}!`),"ok"):"";})()}
     <button class="btn big" data-a="home">Zur Pinnwand</button>
   </div>`;
 }
 
 function eltern(){
-  const f=FALL[UI.f],st=fs(f.id);
-  const rows=f.kapitel.map((k,i)=>{const r=st.kap[i]||{},w=words(k.absaetze),min=r.ms?r.ms/60000:0;const first=r.first!=null?`${r.first} von ${k.fragen.length}`:"–";return`<tr><td>${i+1}. ${esc(k.titel)}</td><td class="n">${w}</td><td class="n">${min?min.toLocaleString("de-DE",{maximumFractionDigits:1})+" Min":"–"}</td><td class="n">${min?Math.round(w/min):"–"}</td><td class="n">${first}</td></tr>`;}).join("");
-  const by={};Object.values(st.kap).forEach(r=>(r.typen||[]).forEach(([t,ok])=>{by[t]=by[t]||[0,0];by[t][1]++;if(ok)by[t][0]++;}));
+  const de=(x,d=1)=>x.toLocaleString("de-DE",{maximumFractionDigits:d});
+  let rows="";
+  FALL.forEach(f=>{const st=fs(f.id);if(!f.kapitel.some((k,i)=>st.kap[i]))return;
+    rows+=`<tr><th colspan="5">Akte ${f.nr} · ${esc(f.titel)}${st.geloest?" · gelöst":""}</th></tr>`;
+    rows+=f.kapitel.map((k,i)=>{const r=st.kap[i]||{},w=words(k.absaetze),min=r.ms&&r.ms>=6000?r.ms/60000:0;const first=r.first!=null?`${r.first} von ${k.fragen.length}`:"–";return`<tr><td>${i+1}. ${esc(k.titel)}</td><td class="n">${w}</td><td class="n">${min?de(min)+" Min":"–"}</td><td class="n">${min?Math.round(w/min):"–"}</td><td class="n">${first}</td></tr>`;}).join("");});
+  if(!rows)rows=`<tr><td colspan="5" class="muted">Noch kein Kapitel gelesen.</td></tr>`;
+  const by={};FALL.forEach(f=>Object.values(fs(f.id).kap).forEach(r=>(r.typen||[]).forEach(([t,ok])=>{by[t]=by[t]||[0,0];by[t][1]++;if(ok)by[t][0]++;})));
   const trows=Object.keys(TYP).map(t=>by[t]?`<tr><td>${TYP[t]}</td><td class="n">${by[t][0]} von ${by[t][1]}</td></tr>`:"").join("")||`<tr><td colspan="2" class="muted">Noch keine Fragen beantwortet.</td></tr>`;
+  const tage=[];const d=new Date();for(let i=0;i<14;i++){const k=iso(d);if(S.log[k])tage.push([k,S.log[k]]);d.setDate(d.getDate()-1);}
+  const drows=tage.length?tage.map(([k,L])=>{const[y,m,t]=k.split("-");return`<tr><td>${t}.${m}.</td><td class="n">${L.kap}</td><td class="n">${L.min?de(L.min)+" Min":"–"}</td></tr>`;}).join(""):`<tr><td colspan="3" class="muted">Die Tagesübersicht startet mit dem nächsten gelesenen Kapitel.</td></tr>`;
+  const v=vorrat(),tageV=Math.floor(v/S.ziel);
   return`<div class="topbar"><button class="btn ghost sm" data-a="home">‹ Zurück</button><span class="type small muted">Für Eltern</span></div>
   <div class="stack" style="margin-top:14px">
     <h1>Lesestand</h1>
+    <div class="panel stack"><h2>Tagesziel</h2><div class="seg">${[1,2].map(n=>`<button data-a="ziel" data-v="${n}" aria-pressed="${S.ziel===n}">${n} Kapitel</button>`).join("")}</div><p class="small muted">Das Tagesziel zählt für die Serie. Weiterlesen ist immer erlaubt: Jedes Kapitel über dem Ziel ist ein Bonus-Kapitel mit 3 Extra-Lupen. Der nächste Fall wird freigeschaltet, sobald der aktuelle gelöst ist.</p></div>
+    <div class="panel stack"><h2>Vorrat</h2><p><b>${v} ungelesene ${v===1?"Kapitel":"Kapitel"}</b>${v?`, das reicht bei ${S.ziel} ${S.ziel===1?"Kapitel":"Kapiteln"} am Tag für etwa ${tageV} ${tageV===1?"Tag":"Tage"}.`:"."}</p>${v<4?`<p class="small" style="color:var(--stamp);font-weight:800">Bald Nachschub nötig: Neue Fälle kommen per Update dazu, der Fortschritt bleibt erhalten.</p>`:""}</div>
+    <div class="panel stack"><h2>Letzte 14 Tage</h2><table><thead><tr><th>Tag</th><th class="n">Kapitel</th><th class="n">Lesezeit</th></tr></thead><tbody>${drows}</tbody></table></div>
     <div class="panel stack"><h2>Kapitel</h2><div class="scrollx"><table><thead><tr><th>Kapitel</th><th class="n">Wörter</th><th class="n">Lesezeit</th><th class="n">Wörter/Min</th><th class="n">1. Versuch</th></tr></thead><tbody>${rows}</tbody></table></div><p class="small muted">Die Lesezeit läuft vom Öffnen des Kapitels bis „Fertig gelesen“, pausiert, wenn die App im Hintergrund ist, und wird Philip nicht angezeigt. Richtwert 5. Klasse, leise gelesen: grob 100 bis 150 Wörter pro Minute.</p></div>
     <div class="panel stack"><h2>Fragetypen beim 1. Versuch richtig</h2><table><tbody>${trows}</tbody></table><p class="small muted">Fakt = Information finden · Wort = Bedeutung aus dem Zusammenhang · Schlussfolgern = zwischen den Zeilen lesen · Beweis = Textstelle belegen · Reihenfolge = Handlung ordnen.</p></div>
-    <div class="panel stack"><h2>Stufen</h2><table><tbody><tr><td>Stufe 1</td><td>ca. 250–400 Wörter je Kapitel, 2–4 Min.</td></tr><tr><td>Stufe 2</td><td>ca. 600–700 Wörter, 5–6 Min.</td></tr><tr><td>Stufe 3</td><td>ca. 1000 Wörter, 8–10 Min.</td></tr><tr><td>Stufe 4</td><td>15 Min. und mehr, Sachtext mit Grafik</td></tr></tbody></table><p class="small muted">Die nächste Stufe kommt, wenn in einem Fall mindestens drei Viertel der Fragen beim ersten Versuch sitzen. Länger wird der Text, das Tempo bleibt frei.</p></div>
+    <div class="panel stack"><h2>Stufen</h2><table><tbody><tr><td class="nw">Stufe 1</td><td>ca. 250–330 Wörter je Kapitel, 2–3 Min.</td></tr><tr><td class="nw">Stufe 2</td><td>ca. 350–450 Wörter, 3–4 Min.</td></tr><tr><td class="nw">Stufe 3</td><td>ca. 600–700 Wörter, 5–6 Min.</td></tr><tr><td class="nw">Stufe 4</td><td>ab 1000 Wörter, 8 Min. und mehr</td></tr></tbody></table><p class="small muted">Die Kapitel werden von Fall zu Fall etwas länger. Sitzen die Fragen gut, geht es schneller zur nächsten Stufe. Länger wird der Text, das Tempo bleibt frei.</p></div>
     <div class="panel stack"><h2>Zurücksetzen</h2>${UI.resetAsk?`<p>Wirklich alles löschen, auch Lupen und Serie?</p><div class="row"><button class="btn red sm" data-a="reset2">Ja, löschen</button><button class="btn ghost sm" data-a="reset0">Abbrechen</button></div>`:`<button class="btn ghost sm" data-a="reset1">Fortschritt zurücksetzen</button>`}</div>
   </div>`;
 }
@@ -422,7 +472,7 @@ document.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]");if(!b)return;
   const a=b.dataset.a,f=FALL[UI.f];
   switch(a){
-    case"home":UI.say=null;go("home");break;
+    case"home":UI.say=null;{const i=aktIdx();UI.f=i<0?FALL.length-1:i;}go("home");break;
     case"lupo":UI.say=TIPPS[Math.floor(Math.random()*TIPPS.length)];render();break;
     case"read":UI.k=+b.dataset.k;readStart();go("read");break;
     case"size":S.size=Math.max(0,Math.min(3,S.size+ +b.dataset.d));save();render();break;
@@ -436,26 +486,33 @@ document.addEventListener("click",e=>{
       else{Q.seq=[];answered(false,q.tipp+" Fang nochmal von vorne an.");}break;}
     case"next":{const kap=f.kapitel[UI.k];if(UI.qi<kap.fragen.length-1){UI.qi++;newQ();go("quiz");}
       else{const st=fs(f.id),rec=st.kap[UI.k];const firstRun=!rec.fertig;
-        if(firstRun){rec.first=rec.res.filter(Boolean).length;rec.typen=kap.fragen.map((q,i)=>[q.typ,!!rec.res[i]]);rec.fertig=true;rec.lupen+=5;S.lupen+=rec.lupen;S.days[today()]=true;}else rec.lupen=0;
+        UI.bonus=0;UI.zielNeu=false;
+        if(firstRun){rec.first=rec.res.filter(Boolean).length;rec.typen=kap.fragen.map((q,i)=>[q.typ,!!rec.res[i]]);rec.fertig=true;rec.lupen+=5;
+          const L=S.log[today()]||(S.log[today()]={kap:0,min:0});L.kap++;L.min+=Math.round((rec.ms||0)/6000)/10;
+          if(L.kap>S.ziel){UI.bonus=3;rec.lupen+=3;}else if(L.kap===S.ziel)UI.zielNeu=true;
+          S.lupen+=rec.lupen;S.days[today()]=true;}else rec.lupen=0;
         save();go("kapFertig");}break;}
     case"akte":go("akte");break;
     case"anklage":UI.anklage=null;UI.beweise=[];UI.ankMsg=null;go("anklage");break;
     case"sus":{const id=b.dataset.id,A=f.anklage;UI.anklage=id;UI.beweise=[];
-      if(id===A.taeter){UI.ankMsg="Interessant! Und wie beweist du das?";UI.ankOk=true;}else{UI.ankMsg=A.falsch[id]||"Hm, prüf das nochmal mit der Akte.";UI.ankOk=false;}render();break;}
+      if(id===A.taeter){UI.ankMsg=A.gefunden||"Interessant! Und wie beweist du das?";UI.ankOk=true;}else{UI.ankMsg=A.falsch[id]||"Hm, prüf das nochmal mit der Akte.";UI.ankOk=false;}render();break;}
     case"bew":{const k=b.dataset.k,i=UI.beweise.indexOf(k);if(i>=0)UI.beweise.splice(i,1);else if(UI.beweise.length<2)UI.beweise.push(k);UI.ankMsg=null;render();break;}
     case"anklagen":{const A=f.anklage,ok=UI.beweise.every(k=>A.beweise.includes(k))&&UI.beweise.some(k=>A.muss.includes(k));
-      if(!ok){UI.ankOk=false;UI.ankMsg=UI.beweise.some(k=>!A.beweise.includes(k))?"Eine deiner Spuren zeigt nur, wer es nicht war. Welche Spuren zeigen direkt auf Marco?":"Gut, aber noch nicht stark genug. Welche Spur zeigt, dass Marco weg war oder was er vorhatte?";render();break;}
+      if(!ok){UI.ankOk=false;UI.ankMsg=UI.beweise.some(k=>!A.beweise.includes(k))?A.hinweisFalsch:A.hinweisSchwach;render();break;}
       const st=fs(f.id);if(!st.geloest){st.geloest=true;S.lupen+=15;S.days[today()]=true;save();toast("+15 Lupen für den gelösten Fall!");}
       go("loesung");break;}
     case"loesung":go("loesung");break;
+    case"archiv":UI.f=+b.dataset.f;go("loesung");break;
+    case"ziel":S.ziel=+b.dataset.v;save();render();break;
     case"eltern":UI.resetAsk=false;go("eltern");break;
     case"reset1":UI.resetAsk=true;render();break;
     case"reset0":UI.resetAsk=false;render();break;
-    case"reset2":S=fresh();save();UI.resetAsk=false;toast("Fortschritt gelöscht.");go("home");break;
+    case"reset2":S=fresh();save();UI.resetAsk=false;SEEN.clear();UI.f=0;toast("Fortschritt gelöscht.");go("home");break;
   }
 });
 
-Object.values(S.faelle).forEach(x=>(x.spuren||[]).forEach(k=>SEEN.add(k)));
+{const i=aktIdx();UI.f=i<0?FALL.length-1:i;}
+Object.entries(S.faelle).forEach(([id,x])=>(x.spuren||[]).forEach(k=>SEEN.add(id+k)));
 render();
 try{if("serviceWorker" in navigator&&/github\.io$/.test(location.hostname))navigator.serviceWorker.register("sw.js").catch(()=>{});}catch(e){}
 </script>
