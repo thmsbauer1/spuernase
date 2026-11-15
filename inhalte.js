@@ -435,5 +435,305 @@ window.FAELLE = [
     ],
     erzaehl: "Fast die ganze Klasse war sicher, dass Jonas schuld war, und alle lagen falsch. Erzähl Papa oder Mama, wie Ella Krümel gefunden hat. Und sprecht darüber: Habt ihr schon einmal erlebt, dass jemand vorschnell verdächtigt wurde? Wie fühlt sich das für den anderen an?"
   }
+},
+
+/* ================= Fall 4: Wissens-Fall, Stufe 2 ================= */
+{
+  id: "steine",
+  nr: 4,
+  titel: "Die Steine, die von allein wandern",
+  ort: "Death Valley, Kalifornien",
+  art: "Wissens-Fall",
+  stufe: 2,
+  liste: "Mögliche Erklärungen",
+  spuren: {
+    fuss:     { kurz: "Keine Fußspuren",  lang: "Neben den Spuren der Steine gibt es keine Fußabdrücke und keine Reifenspuren." },
+    parallel: { kurz: "Parallele Spuren", lang: "Zwei Spuren laufen lange nebeneinander her, mit genau den gleichen Kurven." },
+    winter:   { kurz: "Nur im Winter",    lang: "Die Steine mit Sender haben sich nur im Winter bewegt, nie im Sommer." },
+    see:      { kurz: "See und Frost",    lang: "Die Steine wandern nur, wenn nach Regen ein flacher See auf der Ebene steht und es nachts friert." },
+    magnet:   { kurz: "Nicht magnetisch", lang: "Verschiedene Gesteine wandern gleich weit, und keines davon ist magnetisch." },
+    wind:     { kurz: "Leichter Wind",    lang: "Wenn die Steine wandern, weht nur ein leichter Wind, kein Sturm." },
+    eis:      { kurz: "Dünnes Eis",       lang: "Auf dem flachen See liegt Eis, kaum dicker als eine Fensterscheibe. Darunter ist der Boden weich." },
+    platten:  { kurz: "Treibende Platten", lang: "Das Eis bricht in große Platten. Der Wind lässt sie treiben, und sie stoßen gegen die Steine." },
+    sender:   { kurz: "Stein bewegt sich", lang: "Während das Eis treibt, meldet ein Stein mit Sender: Er bewegt sich, ein paar Meter pro Minute." }
+  },
+  verdaechtige: [
+    { id: "scherz", name: "Ein Scherz von Menschen", zeichen: "M", rolle: "Papas Idee",          farbe: "#6a6f78", raus: "fuss",   grund: "Es gibt keine Fußspuren" },
+    { id: "sturm",  name: "Heftige Stürme",          zeichen: "S", rolle: "Idee vieler Leute",   farbe: "#3b6fa8", raus: "wind",   grund: "Es wehte nur ein leichter Wind" },
+    { id: "magnet", name: "Magnetkräfte",            zeichen: "K", rolle: "Idee des Touristen",  farbe: "#a8577a", raus: "magnet", grund: "Die Steine sind nicht magnetisch" },
+    { id: "eis",    name: "Eis und Wind",            zeichen: "E", rolle: "Ellas Verdacht",      farbe: "#2f7f86" }
+  ],
+  kapitel: [
+  {
+    titel: "Die Rennbahn in der Wüste",
+    absaetze: [
+      "In den Weihnachtsferien flog Ella mit ihrem Papa nach Kalifornien. Lupo durfte nicht mit, er blieb so lange bei Tante Jule an der Nordsee. Ellas Onkel Jonte war Geologe, also ein Forscher, der Steine und Gesteine untersucht. Er arbeitete in einem Nationalpark mit einem unheimlichen Namen: Death Valley, das Tal des Todes. „Im Sommer wird es hier über 50 Grad heiß“, erzählte er, als er sie am Flughafen abholte. „Aber jetzt im Winter sind die Nächte oben in den Bergen eiskalt.“",
+      "Am zweiten Tag fuhren sie mit einem Geländewagen stundenlang über eine holprige Schotterpiste. Dann lag plötzlich eine riesige, flache Ebene vor ihnen, umringt von dunklen Bergen. „Das ist die Racetrack Playa“, sagte Onkel Jonte. „Auf Deutsch heißt das ungefähr: die Rennbahn. Früher war hier ein See. Heute ist der Boden fast immer trocken.“ Ella stieg aus. Der Boden war hart und glatt und in lauter kleine Platten zersprungen, wie ein riesiges Puzzle aus getrocknetem Lehm.",
+      "Dann sah Ella die Steine. Überall auf der Ebene lagen sie verstreut, manche so klein wie ein Fußball, andere so groß wie ein Koffer. Und hinter jedem Stein zog sich eine lange Rinne durch den Boden, als wäre der Stein darübergerutscht. Manche Spuren waren schnurgerade, andere machten Kurven oder Zickzack-Linien. Eine Spur war länger als ein Fußballfeld. „Die Steine wandern“, sagte Onkel Jonte. „Aber gesehen hat es fast noch nie jemand.“",
+      "Ella ging neben einer Spur in die Hocke. [[b1]]Rechts und links neben der Rinne war der Boden ganz glatt, ohne einen einzigen Fußabdruck und ohne Reifenspur. Ein paar Meter weiter entdeckte sie etwas noch Seltsameres. [[b2]]Zwei Steine lagen nebeneinander, und ihre Spuren liefen über eine lange Strecke parallel, mit genau den gleichen Kurven, wie bei einem Paar beim Eiskunstlauf. Ella machte ein Foto und schrieb alles in ihr Notizbuch.",
+      "Auf dem Parkplatz trafen sie einen Touristen mit Cowboyhut. „Das sind Magnetkräfte aus dem Erdinneren“, behauptete er. „Oder Außerirdische.“ Ellas Papa lachte. „Ich glaube eher, hier machen sich Leute einen Spaß und schieben die Steine nachts herum.“ Onkel Jonte schüttelte den Kopf. „Viele denken auch, es sind einfach heftige Stürme. Aber manche Steine wiegen so viel wie drei Erwachsene zusammen.“ Ella sah über die stille, leere Ebene. Wer oder was konnte so schwere Steine verschieben, ohne selbst eine Spur zu hinterlassen?"
+    ],
+    fragen: [
+      { typ: "fakt", frage: "Wie sieht der Boden der Racetrack Playa aus?",
+        optionen: ["Hart, glatt und in kleine Platten zersprungen", "Weich und voller Sand wie am Strand", "Mit Gras und Büschen bewachsen"], richtig: 0,
+        tipp: "Lies das Ende von Absatz 2.",
+        gut: "Genau. Ein Puzzle aus getrocknetem Lehm." },
+      { typ: "wort", frage: "Onkel Jonte ist Geologe. Was macht ein Geologe?",
+        optionen: ["Er erforscht Steine und Gesteine", "Er baut Häuser und Brücken", "Er pflegt die Tiere im Nationalpark"], richtig: 0,
+        tipp: "Die Erklärung steht gleich hinter dem Wort, in Absatz 1.",
+        gut: "Richtig. Für dieses Rätsel genau der richtige Onkel." },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt: Menschen haben die Steine wohl nicht geschoben.",
+        beleg: "b1", tipp: "Ella schaut sich in Absatz 4 den Boden neben einer Spur ganz genau an.",
+        gut: "Stark beobachtet! Wer einen schweren Stein schiebt, hinterlässt Fußspuren.", spur: "fuss" },
+      { typ: "schluss", frage: "Zwei Spuren laufen parallel, mit genau den gleichen Kurven. Was verrät das?",
+        optionen: ["Etwas hat beide Steine gleichzeitig in dieselbe Richtung bewegt", "Jemand hat die Spuren mit einem Lineal gezogen", "Die Steine sind zufällig gleich schwer"], richtig: 0,
+        tipp: "Wenn zwei Dinge genau die gleichen Kurven machen, was ist dann mit beiden gleichzeitig passiert?",
+        gut: "Gut kombiniert. Merk dir das, es wird noch wichtig.", spur: "parallel" }
+    ],
+    weiter: "Onkel Jonte will Ella zeigen, wie Forscher so ein Rätsel lösen. Weiter in Kapitel 2."
+  },
+  {
+    titel: "Die Steine mit Sender",
+    absaetze: [
+      "Am Abend saßen sie in Onkel Jontes Hütte am Rand des Parks. Draußen war es schon bitterkalt. Onkel Jonte klappte seinen Laptop auf. „Ich zeige dir mal, wie man so ein Rätsel erforscht“, sagte er. „Raten bringt nichts. Man muss messen.“",
+      "Er erzählte, dass sein Team vor zwei Jahren eigene Steine auf die Ebene gelegt hatte, mit Erlaubnis des Nationalparks. In jedem Stein steckte ein kleiner GPS-Sender, so ähnlich wie in einem Handy. Der Sender merkte sich genau, wann der Stein sich bewegte und wohin. Dazu standen am Rand der Ebene eine Wetterstation und mehrere Kameras, die alle paar Minuten ein Foto machten.",
+      "„Und? Sind sie gewandert?“, fragte Ella aufgeregt. Onkel Jonte zeigte auf eine Tabelle. [[b3]]„Im Sommer hat sich kein einziger Stein bewegt, alle Bewegungen gab es im Winter.“ Er tippte auf eine andere Spalte. „Und noch etwas ist auffällig. Die Steine sind nur gewandert, wenn es vorher geregnet hatte. Dann bildet sich auf der Ebene ein ganz flacher See, nur ein paar Zentimeter tief. Und in den Nächten davor war es immer unter null Grad.“",
+      "Ella dachte an den Touristen mit dem Cowboyhut. „Und die Magnetkräfte?“ Onkel Jonte grinste und holte zwei Steine aus einem Regal. „Der hier ist Dolomit, der andere ist ein ganz anderes Gestein. [[b4]]Beide Sorten wandern auf der Ebene gleich weit, und keine von ihnen ist magnetisch.“ Er hielt einen Kühlschrankmagneten an die Steine. Der Magnet fiel jedes Mal herunter.",
+      "„Dann waren es eben die Stürme“, sagte Papa. Doch Onkel Jonte zeigte auf die Wetterdaten. [[b5]]„An den Tagen, an denen die Steine gewandert sind, wehte nur ein leichter Wind, so wie bei einem gemütlichen Spaziergang.“ Ella runzelte die Stirn. Ein flacher See. Frost in der Nacht. Ein leichter Wind. Wie passte das zusammen? Da piepte Onkel Jontes Handy. Die Wetterstation meldete: Seit gestern regnet es, heute Nacht gibt es Frost. Onkel Jonte sprang auf. „Morgen früh fahren wir raus. Ganz früh.“"
+    ],
+    fragen: [
+      { typ: "wort", frage: "In jedem Stein steckt ein GPS-Sender. Was macht so ein Sender?",
+        optionen: ["Er merkt sich genau, wann und wohin sich der Stein bewegt", "Er macht Fotos von der Ebene", "Er misst, wie kalt es ist"], richtig: 0,
+        tipp: "Lies Absatz 2. Was merkt sich der Sender?",
+        gut: "Genau. Fotos machen die Kameras, die Kälte misst die Wetterstation." },
+      { typ: "fakt", frage: "Wann haben sich die Steine mit Sender bewegt?",
+        optionen: ["Nur im Winter", "Nur im Sommer", "Das ganze Jahr über"], richtig: 0,
+        tipp: "Onkel Jonte zeigt es in Absatz 3 in einer Tabelle.",
+        gut: "Richtig. Im heißen Sommer passiert gar nichts.", spur: "winter" },
+      { typ: "schluss", frage: "Was war jedes Mal passiert, bevor die Steine gewandert sind?",
+        optionen: ["Es hatte geregnet, und nachts war Frost", "Es war ein besonders heißer Tag", "Es waren viele Touristen auf der Ebene"], richtig: 0,
+        tipp: "Lies den Rest von Absatz 3, nach der Tabelle.",
+        gut: "Genau. Regen, ein flacher See und Frost. Das ist eine wichtige Spur.", spur: "see" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt: Magnetkräfte können es nicht sein.",
+        beleg: "b4", tipp: "Onkel Jonte holt in Absatz 4 zwei Steine aus dem Regal.",
+        gut: "Stark! Was nicht magnetisch ist, kann auch kein Magnet bewegen.", spur: "magnet" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt: Es waren keine Stürme.",
+        beleg: "b5", tipp: "Papa vermutet in Absatz 5 Stürme. Was zeigen die Wetterdaten?",
+        gut: "Richtig. Ein leichter Wind, kein Sturm. Und trotzdem wandern die Steine.", spur: "wind" }
+    ],
+    weiter: "Regen, Frost und ein früher Wecker. Was sieht Ella am Morgen? Weiter in Kapitel 3."
+  },
+  {
+    titel: "Der Morgen, an dem das Eis sang",
+    absaetze: [
+      "Um fünf Uhr morgens klingelte der Wecker. Draußen war es stockdunkel und so kalt, dass Ellas Atem kleine Wolken machte. Sie fuhren los, und als sie die Ebene erreichten, ging gerade die Sonne über den Bergen auf. Ella traute ihren Augen nicht. Wo vor zwei Tagen noch trockener Boden gewesen war, glänzte jetzt eine riesige, flache Wasserfläche.",
+      "Ella ging vorsichtig bis ans Ufer. [[b6]]Das Wasser war mit einer dünnen Eisschicht bedeckt, kaum dicker als eine Fensterscheibe, und darunter war der Boden weich und matschig. Hier und da schauten die Steine aus dem Eis heraus. Onkel Jonte stellte seine Kamera auf. „Jetzt heißt es warten“, flüsterte er.",
+      "Die Sonne stieg höher, und es wurde wärmer. Plötzlich hörte Ella ein Knacken, dann ein helles Klirren, als würden Gläser aneinanderstoßen. Das Eis brach in große, dünne Platten. Ein leichter Wind kam auf, kaum mehr als ein Hauch. [[b7]]Die Eisplatten fingen an, langsam über das Wasser zu treiben, und stießen dabei leise klirrend gegen die Steine. „Hörst du das?“, flüsterte Papa. „Das Eis singt.“",
+      "Ella hielt den Atem an. Eine große Eisplatte trieb genau auf einen Stein zu, der fast so groß war wie ihr Rucksack. Sie drückte gegen ihn. Erst passierte nichts. Dann schien der Stein ein kleines Stück zu rutschen. Oder hatte sich Ella das nur eingebildet? Onkel Jonte starrte auf sein Handy, auf dem die Daten der Sender ankamen. Seine Hände zitterten ein bisschen.",
+      "„Ella“, sagte er leise, „schau dir das an.“ Auf dem Bildschirm blinkte ein Punkt. Es war einer der Steine mit Sender, und er bewegte sich. Ein paar Meter pro Minute, ganz langsam, aber er bewegte sich. Ella sah zurück auf die Ebene, auf das treibende Eis und auf den Stein, der jetzt eine feine Rinne in den Matsch unter dem Wasser zog. Sie dachte an den Regen, an den Frost und an den leichten Wind. Jetzt wusste sie, warum die Steine wanderten. Weißt du es auch?"
+    ],
+    fragen: [
+      { typ: "beweis", frage: "Tippe auf den Satz, der beschreibt, wie das Eis und der Boden darunter aussehen.",
+        beleg: "b6", tipp: "Ella geht in Absatz 2 bis ans Ufer.",
+        gut: "Genau. Dünnes Eis oben, weicher Matsch unten.", spur: "eis" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, dass der Wind das Eis bewegt.",
+        beleg: "b7", tipp: "Lies Absatz 3. Was passiert, als der leichte Wind aufkommt?",
+        gut: "Volltreffer! Der Wind schiebt die Eisplatten, und die stoßen gegen die Steine.", spur: "platten" },
+      { typ: "wort", frage: "„Oder hatte sich Ella das nur eingebildet?“ Was bedeutet „sich etwas einbilden“ hier?",
+        optionen: ["Glauben, etwas zu sehen, das vielleicht gar nicht passiert ist", "Sich ein Bild an die Wand hängen", "Sich etwas ganz genau merken"], richtig: 0,
+        tipp: "Ella ist sich nicht sicher, ob der Stein wirklich gerutscht ist.",
+        gut: "Richtig. Deshalb ist es gut, dass die Sender messen." },
+      { typ: "fakt", frage: "Was zeigt Onkel Jontes Handy?",
+        optionen: ["Ein Stein mit Sender bewegt sich, ein paar Meter pro Minute", "Ein Sturm zieht auf", "Alle Steine liegen still"], richtig: 0,
+        tipp: "Lies Absatz 5.",
+        gut: "Genau. Jetzt ist es nicht nur gesehen, sondern auch gemessen.", spur: "sender" },
+      { typ: "reihe", frage: "Bring die Ereignisse am Morgen in die richtige Reihenfolge. Tippe sie nacheinander an.",
+        schritte: ["Die Sonne geht über den Bergen auf.", "Das Eis bricht in große Platten.", "Eine Eisplatte drückt gegen einen Stein.", "Auf dem Bildschirm bewegt sich ein Punkt."],
+        tipp: "Die Absätze 1, 3, 4 und 5 erzählen es der Reihe nach.",
+        gut: "Perfekt. Erst Sonne, dann Eis, dann Wind und Stein." }
+    ],
+    weiter: "Du hast alle Spuren. Warum wandern die Steine?"
+  }
+  ],
+  anklage: {
+    titel: "Deine Erklärung",
+    frage: "Warum wandern die Steine?",
+    knopf: "Erklärung abgeben",
+    kurz: "Eis + Wind",
+    taeter: "eis",
+    gefunden: "Das glaube ich auch! Und wie beweist du das?",
+    falsch: {
+      scherz: "Schau in deine Akte: Neben den Spuren gibt es keine Fußabdrücke und keine Reifenspuren.",
+      sturm: "Die Wetterstation hat gemessen: Als die Steine wanderten, wehte nur ein leichter Wind.",
+      magnet: "Onkel Jonte hat es mit dem Magneten gezeigt: Die Steine sind gar nicht magnetisch."
+    },
+    beweise: ["platten", "sender", "eis", "see", "winter", "parallel"],
+    muss: ["platten", "sender", "eis"],
+    hinweisFalsch: "Eine deiner Spuren zeigt nur, welche Erklärung nicht stimmt. Welche Spuren zeigen direkt auf die richtige?",
+    hinweisSchwach: "Gut, aber noch nicht stark genug. Welche Spur zeigt, was an dem Morgen auf der Ebene wirklich passiert ist?"
+  },
+  aufloesung: {
+    titel: "Die Auflösung",
+    absaetze: [
+      "„Es ist das Eis!“, rief Ella. „Der Wind schiebt die dünnen Eisplatten, und die Eisplatten schieben die Steine.“ Onkel Jonte nickte und grinste so breit, wie Ella ihn noch nie gesehen hatte. „Genau das zeigen unsere Daten. Und du hast es mit eigenen Augen gesehen.“",
+      "Dann erklärte er alles noch einmal der Reihe nach. In diesem Teil der Wüste regnet es nur selten. Wenn doch, sammelt sich das Wasser auf der Ebene zu einem See, der nur wenige Zentimeter tief ist. In kalten Winternächten friert seine Oberfläche zu. Am Morgen scheint die Sonne, und das Eis zerbricht in große, dünne Platten. Schon ein leichter Wind reicht dann, um die Platten über das Wasser zu schieben. Und weil sie so groß sind, drücken sie mit viel Kraft gegen die Steine. Die Steine rutschen über den weichen, nassen Boden und ziehen ihre Spuren.",
+      "„Und die parallelen Spuren?“, fragte Ella. „Wenn eine große Eisplatte zwei Steine gleichzeitig schiebt, laufen ihre Spuren nebeneinander her“, sagte Onkel Jonte. „Und wenn der Wind dreht, machen beide dieselbe Kurve.“ Papa kratzte sich am Kopf. „Und warum hat das so lange niemand gesehen?“ „Weil alles zusammenkommen muss“, sagte Onkel Jonte. „Regen, Frost, Sonne und Wind. Das passiert nicht jedes Jahr. Und nach ein paar Minuten ist alles wieder vorbei.“",
+      "Als das Wasser einige Tage später verdunstet war, blieben die neuen Spuren im trockenen Boden zurück, fein wie mit einem Stift gezeichnet. Ella schickte Tante Jule ein Foto für Lupo. Darunter schrieb sie: Fall gelöst. Mit Geduld, Messgeräten und einem sehr frühen Wecker.",
+      "Übrigens: Ella und Onkel Jonte sind ausgedacht, die wandernden Steine aber nicht. Es gibt sie wirklich. Im Dezember 2013 haben zwei Forscher auf der Racetrack Playa zum ersten Mal beobachtet und gemessen, wie Eis und Wind die Steine bewegen, mit Steinen voller GPS-Sender, genau wie in dieser Geschichte."
+    ],
+    erzaehl: "Die Forscher haben nicht geraten, sondern gemessen: mit Sendern, Kameras und einer Wetterstation. Erklär Papa oder Mama, warum die Steine wandern. Und überlegt zusammen, was ihr selbst messen könntet, statt nur zu raten. Zum Beispiel, wie lange ein Eiswürfel in der Sonne braucht und wie lange im Schatten."
+  }
+},
+
+/* ================= Fall 5: Detektiv-Fall, Stufe 2 ================= */
+{
+  id: "botschaften",
+  nr: 5,
+  titel: "Die geheimen Botschaften",
+  ort: "Ellas Klasse im Advent",
+  art: "Detektiv-Fall",
+  stufe: 2,
+  spuren: {
+    hamburg:  { kurz: "Ankerpapier",      lang: "Die Zettel stammen von einem Notizblock mit kleinem blauem Anker und der Aufschrift „Gruß aus Hamburg“." },
+    bus:      { kurz: "Erster Bus",       lang: "Die Klasse ist ab 7:30 offen. Als Erste kommen die Kinder aus dem Bus um 7:35: Jonas und Mira." },
+    fahrrad:  { kurz: "Ben kommt spät",   lang: "Ben kommt jeden Morgen erst kurz vor acht mit dem Fahrrad." },
+    code:     { kurz: "Cäsar-Code",       lang: "Jeder Buchstabe ist um drei Stellen im Alphabet verschoben. Zum Lesen schiebt man ihn drei Stellen zurück." },
+    neu:      { kurz: "ICH BIN NEU",      lang: "Die zweite Botschaft heißt entschlüsselt: ICH BIN NEU HIER." },
+    aufsicht: { kurz: "Hofaufsicht",      lang: "Frau Lehmann hat morgens von 7:30 bis 7:50 Aufsicht auf dem Schulhof." },
+    morgens:  { kurz: "Zettel am Morgen", lang: "Am Nachmittag war das Säckchen noch leer. Der Zettel kam erst morgens zwischen halb acht und 7:40 hinein." },
+    frage:    { kurz: "Eine Frage",       lang: "Die dritte Botschaft heißt: WER SPIELT MIT MIR. Das ist kein Streich, sondern eine Frage." },
+    jonas:    { kurz: "Jonas nicht neu",  lang: "Jonas ist schon seit der fünften Klasse in dieser Klasse." },
+    mira:     { kurz: "Aus Hamburg",      lang: "Mira ist nach den Herbstferien mit ihrer Familie aus Hamburg hergezogen." }
+  },
+  verdaechtige: [
+    { id: "ben",     name: "Ben",          zeichen: "B", rolle: "Klassenclown",            farbe: "#3b6fa8", raus: "fahrrad",  grund: "kommt erst kurz vor acht" },
+    { id: "lehmann", name: "Frau Lehmann", zeichen: "L", rolle: "Klassenlehrerin",         farbe: "#a8577a", raus: "aufsicht", grund: "hatte Aufsicht auf dem Hof" },
+    { id: "jonas",   name: "Jonas",        zeichen: "J", rolle: "fährt mit dem ersten Bus", farbe: "#c0702f", raus: "jonas",    grund: "ist nicht neu in der Klasse" },
+    { id: "mira",    name: "Mira",         zeichen: "M", rolle: "neu in der Klasse",       farbe: "#2f7f86" }
+  ],
+  kapitel: [
+  {
+    titel: "Zettel im Adventskalender",
+    absaetze: [
+      "Am ersten Dezember hing in der Klasse 6a ein neuer Adventskalender. Frau Lehmann hatte ihn aus vierundzwanzig kleinen Stoffsäckchen gebastelt und an einer Schnur quer über die Tafel gespannt. In jedem Säckchen steckte eine Kleinigkeit, und jeden Morgen durfte ein anderes Kind eines öffnen. Heute war Lina dran. Sie griff in das Säckchen mit der Eins und zog ein Bonbon heraus. Und einen zusammengefalteten Zettel.",
+      "„Da steht was drauf“, sagte Lina und faltete den Zettel auseinander. Die ganze Klasse drängte sich um sie. In grüner Glitzerschrift stand dort in großen Druckbuchstaben: KDOOR NODVVH. Sonst nichts. Keine Unterschrift, kein Name. „Was soll das heißen?“, fragte Jonas. „Das ist Klingonisch“, behauptete Ben und machte ein grimmiges Gesicht. Ein paar Kinder lachten. Nur Mira, die ganz hinten am Fenster saß, lachte nicht. Sie war erst seit vier Wochen in der Klasse und sagte fast nie etwas.",
+      "Ella nahm den Zettel vorsichtig in die Hand. Das Papier war klein und quadratisch. [[b1]]In der unteren Ecke war ein winziger blauer Anker aufgedruckt, und daneben stand ganz klein: Gruß aus Hamburg. Ella drehte den Zettel um. Die Rückseite war leer. „Frau Lehmann, haben Sie das geschrieben?“, fragte sie. Frau Lehmann schüttelte lächelnd den Kopf. „Ich habe nur Bonbons in die Säckchen gesteckt. Ehrenwort.“",
+      "In der Pause ging Ella zu Herrn Yilmaz. Der Hausmeister wusste immer, wer wann in die Schule kam. „Ich schließe die Klassenräume um halb acht auf“, sagte er. „Um fünf nach halb acht kommt der erste Bus aus dem Neubaugebiet, und die Kinder aus diesem Bus sind morgens immer die Ersten im Gebäude.“ Ella notierte: Klasse offen ab 7:30. Erster Bus um 7:35. Lina und sie selbst waren heute um 7:45 gekommen, und da hatte der Zettel schon im Säckchen gesteckt.",
+      "„Wer aus unserer Klasse fährt mit dem ersten Bus?“, fragte Ella am Nachmittag. Lina überlegte. „Jonas, glaube ich. Und Mira, die Neue.“ Ella nickte langsam. „Und Ben?“ Lina lachte. „Ben? Der kommt jeden Morgen mit dem Fahrrad, und zwar immer auf den letzten Drücker. Er ist noch nie vor acht da gewesen.“ [[b2]]Ella schrieb auf: Ben kommt immer erst kurz vor acht mit dem Fahrrad.",
+      "Am Abend lag Ella lange wach und dachte an die seltsamen Buchstaben. KDOOR NODVVH. Das sah aus wie zwei Wörter. Im ersten Wort stand zweimal hintereinander ein O, im zweiten zweimal ein V. Waren das vielleicht ganz normale Wörter, nur verkleidet? Ella holte ihr Notizbuch hervor und schrieb ganz oben auf eine neue Seite: Fall Nummer fünf. Die geheimen Botschaften."
+    ],
+    fragen: [
+      { typ: "fakt", frage: "Womit ist die Botschaft geschrieben?",
+        optionen: ["Mit grüner Glitzerschrift in Druckbuchstaben", "Mit Bleistift in Schreibschrift", "Mit roter Tinte"], richtig: 0,
+        tipp: "Lies Absatz 2.",
+        gut: "Genau. Grüne Glitzerschrift. Vielleicht ist das später noch wichtig." },
+      { typ: "beweis", frage: "Tippe auf den Satz, der verrät, woher das Notizpapier stammt.",
+        beleg: "b1", tipp: "Ella untersucht den Zettel in Absatz 3 ganz genau.",
+        gut: "Stark! Ein Notizblock aus Hamburg.", spur: "hamburg" },
+      { typ: "schluss", frage: "Wer kann den Zettel am Morgen ins Säckchen gesteckt haben?",
+        optionen: ["Jemand, der vor 7:45 in der Klasse war, zum Beispiel ein Kind aus dem ersten Bus", "Nur Lina, weil sie das Säckchen geöffnet hat", "Niemand, der Zettel lag schon seit dem Sommer darin"], richtig: 0,
+        tipp: "Denk an das, was Herr Yilmaz in Absatz 4 erzählt.",
+        gut: "Gut kombiniert. Die Kinder aus dem ersten Bus sind morgens zuerst da.", spur: "bus" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der Ben entlastet.",
+        beleg: "b2", tipp: "Lina erzählt in Absatz 5, wie Ben zur Schule kommt.",
+        gut: "Richtig. Wer erst kurz vor acht kommt, kann den Zettel nicht vor 7:45 hineinstecken.", spur: "fahrrad" },
+      { typ: "wort", frage: "Ben kommt immer „auf den letzten Drücker“. Was bedeutet das?",
+        optionen: ["Ganz knapp, im letzten Moment", "Mit einem Türdrücker in der Hand", "Als Letzter aus dem Bus"], richtig: 0,
+        tipp: "Lina sagt gleich danach, dass Ben noch nie vor acht da war.",
+        gut: "Genau. Und Ben ist darin offenbar Meister." }
+    ],
+    weiter: "Sind die Buchstaben verkleidete Wörter? Ella sucht nach dem Schlüssel. Weiter in Kapitel 2."
+  },
+  {
+    titel: "Der Code des Kaisers",
+    absaetze: [
+      "Am nächsten Morgen steckte wieder ein Zettel im Adventskalender, diesmal im Säckchen mit der Zwei. Derselbe kleine Ankerzettel, dieselbe grüne Glitzerschrift: LFK ELQ QHX KLHU. Die Klasse rätselte wieder, aber niemand kam weiter. Ben schlug vor, die Buchstaben rückwärts zu lesen. Das ergab auch keinen Sinn.",
+      "In der Mittagspause ging Ella in die Schulbibliothek. Sie suchte so lange, bis sie ein Buch mit dem Titel „Geheimschriften“ fand. Darin las sie von einem berühmten Herrscher aus dem alten Rom, Julius Cäsar. [[b3]]Cäsar verschlüsselte seine Briefe, indem er jeden Buchstaben um drei Stellen im Alphabet weiterschob, aus A wurde D, aus B wurde E und aus C wurde F. Wer die Botschaft lesen wollte, musste jeden Buchstaben einfach wieder um drei Stellen zurückschieben.",
+      "Ellas Herz klopfte. Sie schrieb das Alphabet in ihr Notizbuch und probierte es mit dem ersten Zettel aus. K, drei Stellen zurück: J, I, H. Aus K wurde also H. Aus D wurde A, aus O wurde L. Buchstabe für Buchstabe entstand ein Wort: HALLO. Und das zweite Wort hieß: KLASSE. „Hallo Klasse“, flüsterte Ella. Dann nahm sie sich den zweiten Zettel vor. Als sie fertig war, starrte sie lange auf das, was in ihrem Notizbuch stand.",
+      "Am Nachmittag erzählte sie Lina alles. Lina war beeindruckt. „Dann muss es jemand sein, der Geheimschriften kennt“, sagte sie. „Frau Lehmann vielleicht? Die macht doch mit uns ständig Rätsel.“ Ella schüttelte den Kopf. [[b4]]„Frau Lehmann hat morgens von halb acht bis zehn vor acht Aufsicht auf dem Schulhof, da haben wir sie beide gesehen.“ Lina nickte. „Stimmt. Sie stand die ganze Zeit am Klettergerüst.“",
+      "Dann zeigte Ella ihr die zweite Botschaft. Lina machte große Augen. „Dann ist die Sache doch klar!“ „Vielleicht“, sagte Ella. „Aber ein Detektiv braucht mehr als eine Vermutung.“ In der letzten Stunde hatten sie Kunst. Ella sah zu Jonas hinüber, der eine Weihnachtskarte bastelte. [[b5]]Jonas schrieb gerade mit einem grünen Glitzerstift, der genauso funkelte wie die Schrift auf den Zetteln. Lina stieß Ella mit dem Ellenbogen an. „Und Jonas fährt auch mit dem ersten Bus“, flüsterte sie.",
+      "Bevor sie nach Hause gingen, schaute Ella heimlich in das Säckchen mit der Drei. Darin lag nur ein Bonbon. Kein Zettel. „Morgen früh“, flüsterte sie Lina zu, „wissen wir mehr.“"
+    ],
+    fragen: [
+      { typ: "beweis", frage: "Tippe auf den Satz, der erklärt, wie Cäsars Geheimschrift funktioniert.",
+        beleg: "b3", tipp: "Ella liest in Absatz 2 im Buch über Geheimschriften.",
+        gut: "Genau! Drei Stellen weiter zum Verschlüsseln, drei zurück zum Lesen.", spur: "code" },
+      { typ: "schluss", frage: "Jetzt bist du dran. Schiebe jeden Buchstaben drei Stellen zurück: Was heißt ELQ?",
+        optionen: ["BIN", "DAS", "OMA"], richtig: 0,
+        tipp: "E, drei zurück: D, C, B. Dann L: K, J, I. Und Q: P, O, N.",
+        gut: "Richtig entschlüsselt! E wird B, L wird I, Q wird N." },
+      { typ: "schluss", frage: "Was heißt die ganze zweite Botschaft LFK ELQ QHX KLHU?",
+        optionen: ["ICH BIN NEU HIER", "ICH BIN ALT HIER", "ICH MAG DAS EIS"], richtig: 0,
+        tipp: "Das zweite Wort kennst du schon. Probier das dritte: Q, H und X jeweils drei zurück.",
+        gut: "Genau. ICH BIN NEU HIER. Jetzt wird es spannend.", spur: "neu" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der Frau Lehmann entlastet.",
+        beleg: "b4", tipp: "Ella erklärt es Lina in Absatz 4.",
+        gut: "Richtig. Wer auf dem Schulhof Aufsicht hat, kann nicht gleichzeitig im Klassenraum sein.", spur: "aufsicht" },
+      { typ: "schluss", frage: "Warum wird Jonas jetzt verdächtig?",
+        optionen: ["Er hat einen grünen Glitzerstift und fährt mit dem ersten Bus", "Er hat das Buch über Geheimschriften ausgeliehen", "Er sitzt neben Mira"], richtig: 0,
+        tipp: "Lies das Ende von Absatz 5.",
+        gut: "Genau. Zwei Spuren passen zu Jonas. Aber passen auch alle?" }
+    ],
+    weiter: "Kommt morgen früh ein dritter Zettel? Weiter in Kapitel 3."
+  },
+  {
+    titel: "Die dritte Botschaft",
+    absaetze: [
+      "Am nächsten Morgen bat Ella ihren Papa, sie früher als sonst zur Schule zu fahren. Um 7:40 Uhr öffnete sie die Tür zur Klasse 6a. Es war noch still im Raum. Nur zwei Kinder saßen schon an ihren Plätzen: Jonas, der in ein Comicheft vertieft war, und Mira, die aus dem Fenster schaute. Beide waren mit dem ersten Bus gekommen. Ella ging zum Adventskalender und tastete vorsichtig in das Säckchen mit der Drei.",
+      "Neben dem Bonbon knisterte Papier. [[b6]]Gestern Nachmittag war das Säckchen noch leer gewesen, also musste der Zettel heute Morgen hineingekommen sein, zwischen halb acht und jetzt. Ella faltete ihn auseinander. Wieder der kleine Anker, wieder die grüne Glitzerschrift: ZHU VSLHOW PLW PLU. Ella setzte sich auf ihren Platz und entschlüsselte die Botschaft Buchstabe für Buchstabe. Inzwischen ging das schon ziemlich schnell.",
+      "Dann sah sie sich vorsichtig um. Jonas oder Mira? Jonas hatte einen grünen Glitzerstift, das hatte sie gestern selbst gesehen. Und er kam früh. Aber da war noch die zweite Botschaft, die mit dem Wort NEU. [[b7]]Jonas ging schon seit der fünften Klasse in diese Klasse, er hatte sogar letzten Monat Krümel gefüttert, neu war er also ganz bestimmt nicht. Dann erinnerte sich Ella, was Frau Lehmann nach den Herbstferien zur Klasse gesagt hatte, als Mira zum ersten Mal vorne stand: Mira war mit ihrer Familie aus Hamburg hergezogen.",
+      "Ella spürte ein Kribbeln im Bauch. Alles passte zusammen. Aber sie dachte auch an Jonas und an den verschwundenen Hamster. Damals hatte die halbe Klasse Jonas beschuldigt, und alle hatten sich geirrt. Ella wollte niemanden vor der ganzen Klasse bloßstellen, schon gar nicht, ohne sich sicher zu sein. Und sie wollte auf keinen Fall, dass jemand ausgelacht wurde, nur weil er sich etwas getraut hatte.",
+      "Sie las die dritte Botschaft noch einmal. Das war kein Streich, und es war auch keine Angeberei. Es war eine Frage. Jemand, der sich nicht traute, sie laut zu stellen, hatte sie in einer Geheimschrift versteckt und gehofft, dass jemand klug genug war, sie zu lösen. Ella sah zum Fenster hinüber. Jetzt wusste sie, wer die Botschaften schrieb. Und sie wusste auch, warum. Weißt du es auch?"
+    ],
+    fragen: [
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, wann der dritte Zettel ins Säckchen kam.",
+        beleg: "b6", tipp: "Ella findet den Zettel in Absatz 2. Was weiß sie noch von gestern Nachmittag?",
+        gut: "Genau. Gestern leer, heute Morgen ein Zettel. Also kam er morgens hinein.", spur: "morgens" },
+      { typ: "schluss", frage: "Entschlüssle die dritte Botschaft: ZHU VSLHOW PLW PLU.",
+        optionen: ["WER SPIELT MIT MIR", "WIR SPIELEN MIT DIR", "WER HILFT MIR HEUTE"], richtig: 0,
+        tipp: "Fang mit dem kurzen Wort an: P wird M, L wird I, U wird R.",
+        gut: "Richtig entschlüsselt. Eine Frage, die jemand nicht laut stellen mag.", spur: "frage" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, dass Jonas nicht neu ist.",
+        beleg: "b7", tipp: "Ella denkt in Absatz 3 an den Hamster Krümel.",
+        gut: "Stark! Jonas hat zwar den Stift, aber die Botschaft NEU passt nicht zu ihm.", spur: "jonas" },
+      { typ: "fakt", frage: "Woher ist Mira hergezogen?",
+        optionen: ["Aus Hamburg", "Aus München", "Aus Kalifornien"], richtig: 0,
+        tipp: "Lies das Ende von Absatz 3.",
+        gut: "Genau. Und woher stammt noch einmal das Notizpapier?", spur: "mira" },
+      { typ: "wort", frage: "Ella will niemanden „bloßstellen“. Was bedeutet das?",
+        optionen: ["Jemanden vor anderen peinlich vorführen", "Jemanden an die Tafel holen", "Jemandem einen Platz freihalten"], richtig: 0,
+        tipp: "Lies den Satz danach: Ella will auch nicht, dass jemand ausgelacht wird.",
+        gut: "Richtig. Ella ist eine gute Detektivin und auch eine gute Freundin." }
+    ],
+    weiter: "Du hast alle Spuren. Wer schreibt die geheimen Botschaften?"
+  }
+  ],
+  anklage: {
+    titel: "Deine Lösung",
+    frage: "Wer schreibt die geheimen Botschaften?",
+    knopf: "Lösung sagen",
+    kurz: "Mira",
+    taeter: "mira",
+    gefunden: "Das glaube ich auch. Und wie beweist du das?",
+    falsch: {
+      ben: "Ben kommt jeden Morgen erst kurz vor acht. Da steckten die Zettel schon im Säckchen.",
+      lehmann: "Frau Lehmann hatte morgens Aufsicht auf dem Schulhof. Ella und Lina haben sie dort gesehen.",
+      jonas: "Jonas hat zwar einen grünen Glitzerstift und kommt früh. Aber er ist seit der fünften Klasse dabei, neu ist er nicht."
+    },
+    beweise: ["neu", "mira", "hamburg", "bus", "morgens", "frage"],
+    muss: ["neu", "mira", "hamburg"],
+    hinweisFalsch: "Eine deiner Spuren zeigt nur, wer es nicht war. Welche Spuren zeigen direkt auf die richtige Person?",
+    hinweisSchwach: "Gut, aber noch nicht stark genug. Welche Spur passt nur zu einer einzigen Person?"
+  },
+  aufloesung: {
+    titel: "Die Auflösung",
+    absaetze: [
+      "In der großen Pause wartete Ella, bis die anderen auf dem Schulhof waren. Dann riss sie eine Seite aus ihrem Notizbuch und schrieb mit ihrem schönsten Stift: NRPP CX XQV. Beim Z hatte sie kurz überlegen müssen. Nach dem Z fängt das Alphabet einfach wieder vorne an, also wird aus Z ein C. Sie faltete den Zettel und legte ihn auf Miras Platz.",
+      "Nach der Pause sah Ella, wie Mira den Zettel auseinanderfaltete. Mira las ihn einmal, zweimal, dann ein drittes Mal. Ihre Ohren wurden rot. Dann drehte sie sich langsam um und sah Ella an. Und zum ersten Mal, seit sie in der Klasse war, lächelte sie richtig.",
+      "Nach der Schule erzählte Mira alles. In Hamburg hatte sie mit ihrer besten Freundin immer in der Cäsar-Schrift geschrieben. Den Notizblock mit den Ankern hatte sie zum Abschied geschenkt bekommen. In der neuen Klasse hatte sie sich nicht getraut, einfach jemanden anzusprechen. „Ich dachte, wenn ich es verschlüsselt schreibe, ist es nicht so schlimm, falls keiner antwortet“, sagte sie leise. Den grünen Glitzerstift hatte sie sich übrigens am ersten Schultag von Jonas geliehen. Er hatte nämlich zwei davon.",
+      "Von da an waren die Pausen anders. Ella, Lina und Mira gründeten einen Geheimschrift-Club, und bald wollten auch Jonas und sogar Ben mitmachen. Mira brachte allen noch zwei andere Geheimschriften bei. Und als die Klasse am letzten Schultag vor Weihnachten das Säckchen mit der Vierundzwanzig öffnete, lag darin ein Zettel, den die ganze 6a zusammen geschrieben hatte: ZLU VLQG IURK, GDVV GX GD ELVW. Mira brauchte keine zehn Sekunden, um ihn zu entschlüsseln."
+    ],
+    erzaehl: "Mira hat sich nicht getraut, einfach zu fragen, und Ella hat genau hingeschaut, ohne sie bloßzustellen. Sprecht beim Abendessen darüber: Wie fühlt es sich an, irgendwo neu zu sein? Und als Rätsel für Papa oder Mama: Was heißt NRPP CX XQV, und was stand auf dem letzten Zettel der Klasse? Vielleicht schreibt ihr euch danach selbst eine Botschaft in Cäsar-Schrift."
+  }
 }
 ];

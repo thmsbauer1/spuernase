@@ -1,5 +1,5 @@
 /* Eigener Cache-Name mit Präfix "spuernase-", damit sich die Apps unter derselben Webadresse nicht gegenseitig aufräumen. */
-const C="spuernase-v3";const CORE=["./","index.html","inhalte.js","familie-sync.js","manifest.webmanifest","icon-192.png","icon-512.png"];
+const C="spuernase-v4";const CORE=["./","index.html","inhalte.js","familie-sync.js","manifest.webmanifest","icon-192.png","icon-512.png"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()));});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("spuernase-")&&k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 /* Nur eigene Dateien cachen – Anfragen an den Familienspeicher gehen immer frisch ins Netz. */
