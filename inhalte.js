@@ -735,5 +735,315 @@ window.FAELLE = [
     ],
     erzaehl: "Mira hat sich nicht getraut, einfach zu fragen, und Ella hat genau hingeschaut, ohne sie bloßzustellen. Sprecht beim Abendessen darüber: Wie fühlt es sich an, irgendwo neu zu sein? Und als Rätsel für Papa oder Mama: Was heißt NRPP CX XQV, und was stand auf dem letzten Zettel der Klasse? Vielleicht schreibt ihr euch danach selbst eine Botschaft in Cäsar-Schrift."
   }
+},
+
+/* ================= Fall 6: Wissens-Fall, Stufe 3 ================= */
+{
+  id: "teich",
+  nr: 6,
+  titel: "Die Fische unter dem Eis",
+  ort: "Opas Garten",
+  art: "Wissens-Fall",
+  stufe: 3,
+  liste: "Mögliche Erklärungen",
+  spuren: {
+    quelle:    { kurz: "Keine Quelle",     lang: "Opa hat den Teich selbst gegraben und mit Folie ausgelegt. Es gibt dort keine Quelle." },
+    flach:     { kurz: "Flach = Eis",      lang: "Am flachen Ufer ist der Teich bis auf den Grund gefroren." },
+    tiefe:     { kurz: "1 Meter tief",     lang: "Der Teich ist an der tiefsten Stelle gut einen Meter tief. Das hat damals das Zoofachgeschäft geraten." },
+    vier:      { kurz: "Unten 4 Grad",     lang: "Direkt unter dem Eis hat das Wasser 0 Grad, am Grund in einem Meter Tiefe 4 Grad." },
+    ruhe:      { kurz: "Winterruhe",       lang: "Die Fische stehen ganz still über dem Grund und bewegen kaum die Flossen." },
+    einfrieren:{ kurz: "Nicht einfrieren", lang: "Ein Goldfisch, der im Eis festfriert, überlebt das nicht." },
+    schwimmt:  { kurz: "Eis schwimmt",     lang: "Ein Eiswürfel schwimmt oben auf dem Wasser. Eis ist leichter als Wasser." },
+    ausdehnen: { kurz: "Eis braucht Platz", lang: "Die volle Flasche im Gefrierfach ist dick ausgebeult. Wasser braucht als Eis mehr Platz." },
+    schwer:    { kurz: "Bei 4 Grad schwer", lang: "Bei 4 Grad ist Wasser am schwersten. Kälteres und wärmeres Wasser ist ein kleines bisschen leichter." }
+  },
+  verdaechtige: [
+    { id: "frieren", name: "Die Fische frieren ein",     zeichen: "F", rolle: "Herrn Krügers Idee", farbe: "#5b6f9a", raus: "einfrieren", grund: "Goldfische überleben das nicht" },
+    { id: "quelle",  name: "Eine warme Quelle",          zeichen: "Q", rolle: "Opas Idee",          farbe: "#7a5a3a", raus: "quelle",     grund: "Im Teich gibt es keine Quelle" },
+    { id: "kreis",   name: "Die Fische schwimmen sich warm", zeichen: "S", rolle: "Linas Idee",     farbe: "#a8577a", raus: "ruhe",       grund: "Die Fische bewegen sich kaum" },
+    { id: "wasser",  name: "Unten bleibt das Wasser warm", zeichen: "W", rolle: "Ellas Verdacht",   farbe: "#2f7f86" }
+  ],
+  kapitel: [
+  {
+    titel: "Der Teich wird zu Eis",
+    absaetze: [
+      "Im Januar wurde es so kalt wie seit Jahren nicht mehr. Nachts zeigte das Thermometer minus zwölf Grad, und morgens waren die Autos mit einer dicken Eisschicht überzogen. Ella verbrachte das Wochenende bei ihrem Opa Heinz, der in einem kleinen Haus am Stadtrand wohnte. Lupo war natürlich mit dabei. Hinter dem Haus lag Opas ganzer Stolz: ein Gartenteich, den er vor vielen Jahren selbst angelegt hatte. Darin lebten sieben Goldfische, und jeder von ihnen hatte einen Namen.",
+      "Am Samstagmorgen stand Opa am Fenster und sah besorgt nach draußen. Der Teich war komplett zugefroren. Das Eis war so dick, dass ein Spatz darauf herumhüpfte, ohne einzubrechen. „Meine armen Fische“, murmelte Opa. „Ob die das überleben?“ Ella zog ihre Stiefel an und lief mit Lupo hinaus. Sie kniete sich ans Ufer und wischte mit dem Handschuh den Raureif vom Eis. Darunter war es dunkel. Von den Fischen war nichts zu sehen.",
+      "Über den Gartenzaun schaute Herr Krüger, der Nachbar, mit einer dampfenden Tasse Kaffee in der Hand. „Keine Sorge, Heinz“, rief er. „Die Fische frieren einfach mit ein, wie Fischstäbchen in der Tiefkühltruhe. Im Frühling tauen sie wieder auf und schwimmen weiter.“ Opa runzelte die Stirn. „Ich weiß nicht“, sagte er. „Vielleicht gibt es unten im Teich eine warme Stelle. So eine Art Quelle.“",
+      "Am Nachmittag kam Ellas Freundin Lina zu Besuch. Als sie von den Fischen hörte, hatte auch sie sofort eine Idee. „Die schwimmen bestimmt die ganze Zeit im Kreis“, sagte sie. „Wie wir beim Sportunterricht im Winter. Wer sich bewegt, dem wird warm.“ Ella schüttelte langsam den Kopf. Drei Erklärungen, und alle klangen irgendwie möglich. Aber welche davon stimmte?",
+      "Bevor es dunkel wurde, ging Ella noch einmal hinaus. Sie legte das Ohr auf das kalte Eis, so wie sie es einmal in einem Film gesehen hatte. Nichts war zu hören, nur ihr eigener Atem. Lupo schnüffelte am Rand des Teiches und winselte leise. [[b8]]Am Ufer, wo das Wasser ganz flach war, war der Teich bis auf den Grund gefroren, und ein paar Blätter steckten im Eis fest wie in einem Glasblock. Ella bekam einen Schreck. Wenn der ganze Teich so aussah, dann hatten die Fische keine Chance.",
+      "Abends saß Ella mit Opa am Küchentisch, und er zeigte ihr alte Fotos vom Bau des Teiches. [[b1]]Auf den Bildern sah man, wie Opa das Loch selbst ausgehoben und mit einer dicken schwarzen Folie ausgelegt hatte, ganz ohne Quelle oder Rohr, und das Wasser hatte er mit dem Gartenschlauch eingefüllt. „Wie tief ist der Teich eigentlich?“, fragte Ella. „An der tiefsten Stelle gut einen Meter“, sagte Opa. „Das hat mir damals der Mann im Zoofachgeschäft geraten. Warum, weiß ich gar nicht mehr.“",
+      "Ella schrieb in ihr Notizbuch: Drei Erklärungen. Herr Krüger: Die Fische frieren ein. Opa: eine warme Quelle. Lina: Die Fische schwimmen immer im Kreis. Dahinter malte sie ein dickes Fragezeichen. Morgen, beschloss sie, würde sie nachmessen. Und sie würde dort nachfragen, wo man sich mit Fischen wirklich auskannte."
+    ],
+    fragen: [
+      { typ: "fakt", frage: "Wie kalt wird es in diesem Januar nachts?",
+        optionen: ["Minus zwölf Grad", "Null Grad", "Plus vier Grad"], richtig: 0,
+        tipp: "Lies den Anfang von Absatz 1.",
+        gut: "Genau. So kalt, dass sogar ein Spatz auf dem Eis herumhüpfen kann." },
+      { typ: "wort", frage: "Ella wischt den „Raureif“ vom Eis. Was ist Raureif?",
+        optionen: ["Eine dünne Schicht aus winzigen Eiskristallen", "Ein Werkzeug zum Eisbrechen", "Ein reifer Apfel, der ins Eis gefallen ist"], richtig: 0,
+        tipp: "Es ist minus zwölf Grad, und Ella wischt etwas mit dem Handschuh weg, um unter das Eis zu schauen.",
+        gut: "Richtig. Raureif entsteht, wenn Feuchtigkeit aus der Luft an kalten Flächen gefriert." },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, was mit flachem Wasser im Winter passiert.",
+        beleg: "b8", tipp: "Ella geht in Absatz 5 noch einmal hinaus ans Ufer.",
+        gut: "Genau. Flaches Wasser friert bis zum Boden durch. Merk dir das!", spur: "flach" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt: Im Teich gibt es keine Quelle.",
+        beleg: "b1", tipp: "Opa zeigt Ella in Absatz 6 alte Fotos.",
+        gut: "Stark! Folie, Gartenschlauch, keine Quelle. Opas Idee fällt weg.", spur: "quelle" },
+      { typ: "fakt", frage: "Wie tief ist der Teich an der tiefsten Stelle?",
+        optionen: ["Gut einen Meter", "Etwa zehn Zentimeter", "Fünf Meter"], richtig: 0,
+        tipp: "Ella fragt Opa danach am Ende von Absatz 6.",
+        gut: "Genau. Und dass es dafür einen guten Grund gibt, wirst du noch herausfinden.", spur: "tiefe" }
+    ],
+    weiter: "Ella will nachmessen. Was zeigt das Thermometer? Weiter in Kapitel 2."
+  },
+  {
+    titel: "Ein Loch im Eis",
+    absaetze: [
+      "Am Sonntagmorgen holte Opa einen Topf mit heißem Wasser. „Hacken darf man das Eis auf keinen Fall“, sagte er. „Die Schläge erschrecken die Fische.“ Langsam goss er das warme Wasser auf eine Stelle am Rand, bis ein Loch entstanden war, so groß wie ein Teller. Ella hatte inzwischen ein Thermometer an eine lange Schnur gebunden und alle zehn Zentimeter einen Knoten gemacht.",
+      "Vorsichtig ließ sie das Thermometer ins Wasser. Gleich unter dem Eis las sie ab: 0 Grad. Dann ließ sie es tiefer sinken, Knoten für Knoten. [[b2]]Ganz unten am Grund, in einem Meter Tiefe, zeigte das Thermometer 4 Grad, also deutlich mehr als direkt unter dem Eis. Ella wiederholte die Messung dreimal. Jedes Mal kam dasselbe heraus. „Unten ist es wärmer als oben“, sagte sie verblüfft. „Dabei scheint doch oben die Sonne!“",
+      "Dann leuchtete sie mit Opas Taschenlampe durch das Loch. Zuerst sah sie nur grünliches Wasser. Doch dann entdeckte sie die Fische. [[b3]]Sie standen ganz still dicht über dem Grund, bewegten kaum die Flossen und sahen aus, als würden sie schlafen. „Da ist Goldi!“, rief Ella. „Und Flitzer! Sie leben alle!“ Opa beugte sich über das Loch, und Ella sah, wie erleichtert er war.",
+      "Opa erzählte, dass er schon im Oktober aufgehört hatte, die Fische zu füttern. „Wenn das Wasser kälter als zehn Grad wird, fressen sie immer weniger“, sagte er. „Das Futter würde nur auf den Grund sinken und dort vergammeln.“ Ella sah ihn erstaunt an. „Dann hungern sie den ganzen Winter?“ Opa lachte. „Nicht richtig. Sie haben sich im Sommer ein kleines Fettpolster angefressen, ein bisschen wie ein Bär vor dem Winterschlaf. Davon leben sie jetzt, ganz sparsam.“ Ella fand das ziemlich schlau. Trotzdem blieb die große Frage: Warum war es unten wärmer als oben?",
+      "„Von wegen im Kreis schwimmen“, erzählte Ella später Lina am Telefon. „Die bewegen sich fast gar nicht.“ Am Nachmittag fuhr Opa mit Ella und Lupo in die Stadt, in das Zoofachgeschäft, in dem er vor vielen Jahren seine ersten Goldfische gekauft hatte. Hinter der Theke stand Frau Demir. Sie hörte sich Ellas Messungen an und nickte anerkennend.",
+      "„Die Fische halten Winterruhe“, erklärte Frau Demir. „Wenn das Wasser kalt ist, arbeitet ihr Körper ganz langsam. Sie brauchen dann kaum Futter und wenig Sauerstoff.“ Dann wurde sie ernst. [[b4]]„Aber einfrieren dürfen sie auf keinen Fall, denn wenn ein Goldfisch im Eis festfriert, überlebt er das nicht.“ Herr Krüger hatte sich also geirrt. Frau Demir zeigte auf ein Schild über den Aquarien. Darauf stand: Gartenteich für Fische mindestens 80 Zentimeter tief!",
+      "„Aber warum ist es unten wärmer?“, fragte Ella. „Warmes Wasser steigt doch nach oben, oder?“ Frau Demir lächelte geheimnisvoll. „Das ist die große Frage“, sagte sie. „Wasser ist ein ziemlich seltsamer Stoff. Probier zu Hause zwei Dinge aus. Leg einen Eiswürfel in ein Glas Wasser. Und füll eine Plastikflasche randvoll mit Wasser, schraub sie zu und leg sie über Nacht ins Gefrierfach. Aber nimm bloß keine Glasflasche!“"
+    ],
+    fragen: [
+      { typ: "reihe", frage: "Bring Ellas Untersuchung in die richtige Reihenfolge. Tippe sie nacheinander an.",
+        schritte: ["Opa schmilzt mit heißem Wasser ein Loch ins Eis.", "Ella misst direkt unter dem Eis 0 Grad.", "Ella lässt das Thermometer bis auf den Grund sinken.", "Ella entdeckt die Fische mit der Taschenlampe."],
+        tipp: "Die Absätze 1 bis 3 erzählen es der Reihe nach.",
+        gut: "Perfekt. Erst das Loch, dann messen, dann nachschauen." },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, wie warm das Wasser am Grund ist.",
+        beleg: "b2", tipp: "Ella lässt das Thermometer in Absatz 2 Knoten für Knoten tiefer sinken.",
+        gut: "Genau. Oben 0 Grad, unten 4 Grad. Das ist die wichtigste Messung des Falls.", spur: "vier" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt: Die Fische schwimmen nicht ständig im Kreis.",
+        beleg: "b3", tipp: "Ella leuchtet in Absatz 3 mit der Taschenlampe ins Wasser.",
+        gut: "Richtig. Ganz still, als ob sie schlafen. Linas Idee fällt weg.", spur: "ruhe" },
+      { typ: "schluss", frage: "Warum stimmt Herrn Krügers Erklärung nicht?",
+        optionen: ["Ein Goldfisch, der einfriert, überlebt das nicht", "Herr Krüger hat selbst keinen Teich", "Fischstäbchen werden nicht eingefroren"], richtig: 0,
+        tipp: "Lies, was Frau Demir in Absatz 6 ernst sagt.",
+        gut: "Genau. Die Fische dürfen nicht einfrieren. Also muss das Wasser unten flüssig bleiben.", spur: "einfrieren" },
+      { typ: "wort", frage: "Die Fische halten „Winterruhe“. Was bedeutet das?",
+        optionen: ["Ihr Körper arbeitet ganz langsam, sie bewegen sich kaum und fressen fast nichts", "Sie schlafen in einer Höhle unter der Erde", "Sie schwimmen im Winter in wärmere Länder"], richtig: 0,
+        tipp: "Frau Demir erklärt es am Anfang von Absatz 6.",
+        gut: "Richtig. Ruhen, aber nicht richtig schlafen." }
+    ],
+    weiter: "Zwei Experimente in der Küche. Was passiert mit dem Eis? Weiter in Kapitel 3."
+  },
+  {
+    titel: "Zwei Experimente in der Küche",
+    absaetze: [
+      "Zurück bei Opa machte sich Ella sofort an die Arbeit. Zuerst füllte sie ein Glas mit Leitungswasser und ließ einen Eiswürfel hineinfallen. Er ging nicht unter. [[b5]]Der Eiswürfel schwamm oben auf dem Wasser, und nur ein kleines Stück schaute heraus, der größte Teil lag knapp unter der Oberfläche. „Wie ein Eisberg“, sagte Opa. „Bei dem sieht man auch nur die Spitze. Der Rest ist unter Wasser.“",
+      "Dann holte Ella eine leere Plastikflasche, auf keinen Fall eine aus Glas, wie Frau Demir gesagt hatte. Sie füllte sie bis ganz oben mit Wasser, schraubte den Deckel fest zu und legte sie ins Gefrierfach. Danach konnte sie nur noch warten. Beim Abendessen erzählte Opa von früher, als er als Junge auf zugefrorenen Seen Schlittschuh gelaufen war. „Wir haben jeden Winter auf das Eis gewartet“, sagte er. „Aber keiner von uns hat sich je gefragt, warum es eigentlich oben schwimmt.“",
+      "Am nächsten Morgen lief Ella noch im Schlafanzug zum Gefrierfach. Die Flasche sah ganz anders aus als am Abend. [[b6]]Sie war dick ausgebeult, der Boden hatte sich nach außen gewölbt, und der Deckel saß ganz schief, als hätte jemand von innen dagegengedrückt. „Das Wasser ist größer geworden!“, rief Ella. „Als es zu Eis wurde, hat es mehr Platz gebraucht.“",
+      "„Das kenne ich“, brummte Opa. „In einem sehr kalten Winter, als ich noch jung war, ist bei uns in der Garage die Wasserleitung geplatzt. Ich hatte vergessen, im Herbst das Wasser abzustellen. Das Wasser im Rohr ist gefroren, hat sich ausgedehnt, und mit einem lauten Knall ist das Metall aufgerissen.“ Ella staunte. Wenn Eis sogar ein Metallrohr sprengen konnte, wie stark musste es dann drücken? „Deshalb stellen viele Leute im Herbst den Wasserhahn im Garten ab“, sagte Opa. „Sonst gibt es im Frühling eine böse Überraschung.“",
+      "Opa holte ein altes, dickes Buch aus dem Regal. Es hieß „Physik für junge Forscher“ und roch ein bisschen nach Keller. Gemeinsam suchten sie das Kapitel über Wasser, und Ella las laut vor. Fast alle Stoffe ziehen sich zusammen, wenn sie kälter werden. Wasser macht das auch, aber nur bis 4 Grad. [[b7]]Bei 4 Grad ist Wasser am schwersten, ein Liter davon wiegt ein kleines bisschen mehr als ein Liter Wasser, das kälter oder wärmer ist. Wird Wasser noch kälter, dehnt es sich wieder aus. Und als Eis braucht es noch mehr Platz. Deshalb ist Eis leichter als Wasser.",
+      "Ella legte das Buch zur Seite und sah aus dem Küchenfenster auf den Teich. Sie dachte an das Thermometer an der Schnur, an die 0 Grad oben und die 4 Grad unten. An den Eiswürfel, der oben schwamm. Und an die Fische, die ruhig über dem Grund standen. „Opa“, sagte sie langsam, „ich glaube, ich weiß jetzt, warum deine Fische überleben.“ Opa schob die Brille auf die Stirn. „Na, dann erklär es mir mal.“ Weißt du es auch?"
+    ],
+    fragen: [
+      { typ: "fakt", frage: "Was passiert mit dem Eiswürfel im Wasserglas?",
+        optionen: ["Er schwimmt oben, nur ein kleines Stück schaut heraus", "Er sinkt sofort auf den Boden", "Er schmilzt in einer Sekunde"], richtig: 0,
+        tipp: "Lies den Anfang von Absatz 1.",
+        gut: "Genau. Eis ist leichter als Wasser, deshalb schwimmt es.", spur: "schwimmt" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, dass Wasser beim Gefrieren mehr Platz braucht.",
+        beleg: "b6", tipp: "Ella schaut in Absatz 3 ins Gefrierfach.",
+        gut: "Richtig! Die Flasche war zu klein für das Eis.", spur: "ausdehnen" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der erklärt, bei welcher Temperatur Wasser am schwersten ist.",
+        beleg: "b7", tipp: "Ella liest in Absatz 5 aus Opas Physikbuch vor.",
+        gut: "Volltreffer. Das ist der Schlüssel zum ganzen Rätsel.", spur: "schwer" },
+      { typ: "wort", frage: "Wasser „dehnt sich aus“. Was bedeutet das?",
+        optionen: ["Es braucht mehr Platz", "Es wird schwerer", "Es läuft aus der Flasche"], richtig: 0,
+        tipp: "Denk an die ausgebeulte Flasche.",
+        gut: "Genau. Ausdehnen heißt: größer werden und mehr Platz brauchen." },
+      { typ: "schluss", frage: "Warum soll Ella keine Glasflasche ins Gefrierfach legen?",
+        optionen: ["Das Eis braucht mehr Platz und könnte das Glas zerspringen lassen", "Glas wird im Gefrierfach weich", "In einer Glasflasche gefriert Wasser nicht"], richtig: 0,
+        tipp: "Was ist mit der Plastikflasche passiert? Plastik kann sich ausbeulen. Kann Glas das auch?",
+        gut: "Richtig. Plastik beult sich aus, Glas würde platzen. Gut mitgedacht!" }
+    ],
+    weiter: "Du hast alle Spuren. Warum überleben die Fische unter dem Eis?"
+  }
+  ],
+  anklage: {
+    titel: "Deine Erklärung",
+    frage: "Warum überleben die Fische unter dem Eis?",
+    knopf: "Erklärung abgeben",
+    kurz: "4 Grad",
+    taeter: "wasser",
+    gefunden: "Das glaube ich auch! Und wie beweist du das?",
+    falsch: {
+      frieren: "Frau Demir hat es gesagt: Ein Goldfisch, der einfriert, überlebt das nicht.",
+      quelle: "Schau dir Opas Fotos noch einmal an: Folie, Gartenschlauch, aber keine Quelle.",
+      kreis: "Ella hat die Fische mit der Taschenlampe gesehen. Sie standen fast still über dem Grund."
+    },
+    beweise: ["vier", "schwer", "schwimmt", "ausdehnen", "tiefe", "flach"],
+    muss: ["vier", "schwer"],
+    hinweisFalsch: "Eine deiner Spuren zeigt nur, welche Erklärung nicht stimmt. Welche Spuren zeigen direkt auf die richtige?",
+    hinweisSchwach: "Gut, aber noch nicht stark genug. Welche Spur zeigt, wie warm es unten ist, oder warum das schwere Wasser nach unten sinkt?"
+  },
+  aufloesung: {
+    titel: "Die Auflösung",
+    absaetze: [
+      "„Das Wasser ist bei 4 Grad am schwersten“, erklärte Ella. „Deshalb sinkt es nach unten und sammelt sich am Grund. Das kältere Wasser bleibt oben und friert zu. Und weil Eis leichter ist als Wasser, schwimmt es oben wie ein Deckel.“ Opa nickte langsam. „Und der Deckel hält die Kälte ab“, sagte er. „Wie eine Decke über dem Teich.“",
+      "Genau so ist es. Im Herbst kühlt das Wasser im Teich von oben her ab. Wird es an der Oberfläche 4 Grad kalt, ist es schwerer als das Wasser darunter und sinkt nach unten. Das geht so lange weiter, bis der ganze Teich 4 Grad hat. Kühlt die Oberfläche danach noch weiter ab, bleibt das kältere und leichtere Wasser oben. Es friert zu einer Eisschicht, und die schützt das Wasser darunter vor der kalten Luft. Am Grund bleibt es deshalb den ganzen Winter über ungefähr 4 Grad warm. Dort warten die Fische in Winterruhe auf den Frühling.",
+      "„Darum muss der Teich so tief sein!“, rief Ella. „Wäre er flach, würde er bis zum Boden zufrieren.“ „Dann hätten Goldi und Flitzer keinen Platz mehr“, sagte Opa leise. Er dachte an den Mann im Zoofachgeschäft, der ihm vor so vielen Jahren den Rat gegeben hatte. „Gut, dass ich damals auf ihn gehört habe.“",
+      "Übrigens: Wäre Wasser ein ganz gewöhnlicher Stoff, würde Eis untergehen. Seen würden dann im Winter vom Grund her zufrieren, Schicht für Schicht, und vieles, was darin lebt, käme nicht durch den Winter. Forscher nennen dieses besondere Verhalten die Anomalie des Wassers. Anomalie bedeutet so viel wie: Ausnahme von der Regel.",
+      "Im April taute das Eis. Als die Sonne das Wasser wärmte, kamen die Fische nach und nach wieder nach oben, alle sieben. Ella stand mit Opa am Teich und warf ein paar Krümel Futter ins Wasser. Und Lupo bellte jeden Goldfisch einzeln an, als wollte er ihn im Frühling begrüßen."
+    ],
+    erzaehl: "Ella hat gemessen, ausprobiert und nachgelesen. Erklär Papa oder Mama, warum Fische im zugefrorenen Teich überleben. Und probiert es zusammen aus: Legt einen Eiswürfel in ein Glas Wasser und schaut, wie viel davon herausschaut. Das Experiment mit der Flasche im Gefrierfach geht auch, aber bitte nur mit Plastik, nie mit Glas!"
+  }
+},
+
+/* ================= Fall 7: Detektiv-Fall, Stufe 3 ================= */
+{
+  id: "wahl",
+  nr: 7,
+  titel: "Vierzehn Stimmen zu viel",
+  ort: "Die Aula von Ellas Schule",
+  art: "Detektiv-Fall",
+  stufe: 3,
+  spuren: {
+    regeln:    { kurz: "Faire Wahl",       lang: "Jeder hat genau eine Stimme, jede Stimme zählt gleich viel, und niemand darf sehen, wen ein anderer wählt." },
+    zahl:      { kurz: "412 statt 398",    lang: "In der Wählerliste stehen 398 Haken, in der Urne lagen aber 412 Stimmzettel. 14 sind zu viel." },
+    klebeband: { kurz: "Urne zu",          lang: "Das Klebeband an der Urne ist unversehrt. Die falschen Zettel kamen während der Wahl durch den Schlitz." },
+    stempel:   { kurz: "Ohne Stempel",     lang: "14 Zettel haben keinen Stempel auf der Rückseite und ein lila Kreuz bei Lea. Alle sind zweimal gefaltet." },
+    plakate:   { kurz: "Lila Stifte",      lang: "Noah hat alle Plakate für Lea gemalt, mit einem ganzen Satz lila Filzstifte." },
+    lea:       { kurz: "Lea im Interview", lang: "Lea saß die ganze Mittagspause mit Ella im Raum der Schülerzeitung." },
+    pause:     { kurz: "Allein in der Aula", lang: "In der Mittagspause hat nur Noah allein in der Aula aufgepasst." },
+    alibi:     { kurz: "Ben und Jana",     lang: "Ben war in der Pause bei der Fußball-AG, Jana hat mit Lina in der Mensa gesessen." },
+    reserve:   { kurz: "14 Reservezettel", lang: "Von den 20 ungestempelten Reservezetteln im Raum der Schülervertretung fehlen genau 14." },
+    schluessel:{ kurz: "Der Schlüssel",    lang: "Am Wahltag hat sich nur Noah den Schlüssel für den Raum der Schülervertretung geholt." }
+  },
+  verdaechtige: [
+    { id: "lea",  name: "Lea",  zeichen: "L", rolle: "Kandidatin, 8b",   farbe: "#8a5aa8", raus: "lea",   grund: "war im Interview mit Ella" },
+    { id: "ben",  name: "Ben",  zeichen: "B", rolle: "Wahlhelfer, 6a",   farbe: "#3b6fa8", raus: "alibi", grund: "war bei der Fußball-AG" },
+    { id: "jana", name: "Jana", zeichen: "J", rolle: "Wahlhelferin, 9a", farbe: "#a8577a", raus: "alibi", grund: "saß in der Mensa" },
+    { id: "noah", name: "Noah", zeichen: "N", rolle: "Wahlhelfer, 8b",   farbe: "#c0702f" }
+  ],
+  kapitel: [
+  {
+    titel: "Die Wahl in der Aula",
+    absaetze: [
+      "Im Februar wählte Ellas Schule eine neue Schülersprecherin oder einen neuen Schülersprecher. Zwei hatten sich aufstellen lassen: Lea aus der 8b, die sich für längere Pausen und einen Trinkbrunnen einsetzte, und Tarik aus der 9a, der eine Fahrradwerkstatt auf dem Schulhof wollte. Ella hatte sich als Wahlhelferin gemeldet. Für die Schülerzeitung wollte sie sowieso über die Wahl berichten, und so konnte sie alles aus nächster Nähe beobachten.",
+      "In der Woche vor der Wahl hingen überall in der Schule Plakate. Auf Leas Plakaten stand in großen lila Buchstaben: „Lila für Lea! Mehr Pause, mehr Wasser!“ Tariks Plakate waren grün und zeigten ein Fahrrad mit einem Schraubenschlüssel. Am Freitag hielten beide in der Aula eine Rede. Lea sprach schnell und war ein bisschen nervös, aber alle merkten, wie ernst sie es meinte. Tarik machte ein paar Witze, und die Großen lachten laut. Hinterher stritten sich die Kinder aus Ellas Klasse auf dem Schulhof, wer besser gewesen war. Ella fand, dass beide gute Ideen hatten. Gut, dass jeder selbst entscheiden durfte.",
+      "Herr Lindner, der Lehrer, der die Schülervertretung betreute, erklärte den Wahlhelfern am Morgen die Regeln. „Eine Wahl muss fair sein“, sagte er. [[b1]]„Jeder hat genau eine Stimme, jede Stimme zählt gleich viel, und niemand darf sehen, wen ein anderer wählt.“ Deshalb stand in der Aula hinter einer Stellwand ein kleiner Tisch, an dem man allein sein Kreuz machen konnte. Daneben stand die Wahlurne, ein großer Karton mit einem Schlitz im Deckel. Herr Lindner klebte ihn ringsum mit breitem Klebeband zu und unterschrieb quer über das Band.",
+      "Dann kamen die Klassen, eine nach der anderen. Jedes Kind sagte am Tisch der Wahlhelfer seinen Namen. Ein Wahlhelfer suchte den Namen in der Wählerliste und machte einen Haken dahinter. Erst dann gab es einen Stimmzettel, auf dessen Rückseite der runde Stempel der Schülervertretung gedrückt wurde. Ella stempelte den ganzen Vormittag, bis ihr der Arm wehtat. Neben ihr saßen die anderen Wahlhelfer: Ben aus ihrer Klasse, Jana aus der 9a und Noah aus der 8b, Leas bester Freund.",
+      "Um drei Uhr nachmittags war es so weit. Herr Lindner prüfte das Klebeband, öffnete die Urne und kippte die Stimmzettel auf einen großen Tisch. Die Wahlhelfer zählten in Zehnerstapeln. Lea hatte 215 Stimmen, Tarik 197. Lea strahlte schon, doch Herr Lindner hob die Hand. „Moment“, sagte er. „Wir zählen noch die Haken.“ [[b2]]In der Wählerliste standen genau 398 Haken, aber in der Urne hatten 412 Stimmzettel gelegen, also 14 mehr, als Kinder gewählt hatten.",
+      "Es wurde ganz still in der Aula. „Vielleicht haben wir uns verzählt“, sagte Ben. Sie zählten noch einmal, Zettel für Zettel. Wieder 412. Herr Lindner sah sehr ernst aus. „Jemand hat zusätzliche Stimmzettel in die Urne gesteckt“, sagte er. „Solange wir nicht wissen, welche Zettel falsch sind und wie sie hineingekommen sind, kann ich kein Ergebnis verkünden.“ Lea wurde blass. Tarik verschränkte die Arme. Und Ella zog ihr Notizbuch aus der Tasche."
+    ],
+    fragen: [
+      { typ: "fakt", frage: "Wofür setzt sich Tarik ein?",
+        optionen: ["Für eine Fahrradwerkstatt auf dem Schulhof", "Für längere Pausen", "Für einen Trinkbrunnen"], richtig: 0,
+        tipp: "Lies Absatz 1 genau. Welche Idee gehört zu wem?",
+        gut: "Genau. Pausen und Trinkbrunnen sind Leas Ideen." },
+      { typ: "beweis", frage: "Tippe auf den Satz, der die wichtigsten Regeln einer fairen Wahl nennt.",
+        beleg: "b1", tipp: "Herr Lindner erklärt die Regeln in Absatz 3.",
+        gut: "Stark! Eine Stimme pro Person, alle gleich viel wert, und geheim.", spur: "regeln" },
+      { typ: "schluss", frage: "Warum macht ein Wahlhelfer einen Haken hinter jeden Namen?",
+        optionen: ["Damit niemand zweimal wählen kann", "Damit man später weiß, wen jemand gewählt hat", "Damit die Liste ordentlich aussieht"], richtig: 0,
+        tipp: "Denk an die Regel: Jeder hat genau eine Stimme.",
+        gut: "Richtig. Und wen jemand gewählt hat, bleibt geheim. Der Haken verrät nur, dass er gewählt hat." },
+      { typ: "schluss", frage: "Warum kann Herr Lindner kein Ergebnis verkünden?",
+        optionen: ["In der Urne liegen 14 Stimmzettel mehr, als Kinder gewählt haben", "Lea und Tarik haben gleich viele Stimmen", "Die Wahlurne ist kaputtgegangen"], richtig: 0,
+        tipp: "Lies das Ende von Absatz 5.",
+        gut: "Genau. 412 Zettel, aber nur 398 Haken. Das passt nicht zusammen.", spur: "zahl" },
+      { typ: "wort", frage: "Was ist eine „Wahlurne“?",
+        optionen: ["Ein verschlossener Behälter, in den man seinen Stimmzettel wirft", "Eine Liste mit allen Namen", "Ein Tisch hinter einer Stellwand"], richtig: 0,
+        tipp: "Herr Lindner beschreibt sie in Absatz 3.",
+        gut: "Richtig. Bei Ellas Wahl ist es ein zugeklebter Karton mit Schlitz." }
+    ],
+    weiter: "Welche Zettel sind falsch? Ella untersucht die Stimmzettel. Weiter in Kapitel 2."
+  },
+  {
+    titel: "Die falschen Zettel",
+    absaetze: [
+      "Am nächsten Tag durfte Ella die Stimmzettel mit Herrn Lindner noch einmal untersuchen. Sie lagen in einer verschlossenen Kiste im Lehrerzimmer. Zuerst prüfte Ella die Wahlurne selbst. Das Klebeband war unversehrt, und Herrn Lindners Unterschrift lief ohne einen einzigen Riss über alle Kanten. Niemand hatte den Karton geöffnet. Die falschen Zettel mussten also durch den Schlitz hineingekommen sein, irgendwann während der Wahl.",
+      "Dann drehte Ella einen Stimmzettel nach dem anderen um. Auf der Rückseite war fast immer der runde Stempel der Schülervertretung. Doch plötzlich stutzte sie. [[b3]]Auf einem Zettel fehlte der Stempel, die Rückseite war ganz weiß, und das Kreuz bei Lea war mit einem lila Filzstift gemalt, nicht mit einem Kuli wie bei den anderen. Ella legte ihn zur Seite. Am Ende lagen dort genau 14 Zettel. Alle ohne Stempel, alle mit lila Kreuz, alle für Lea. Und alle waren zweimal gefaltet, obwohl Herr Lindner gesagt hatte, man solle sie nur einmal falten.",
+      "Herr Lindner sah sich die Zettel lange an. Dann erklärte er Ella, dass es bei jeder Wahl auch ungültige Stimmzettel geben kann. „Wenn jemand zwei Kreuze macht, gar keins oder etwas auf den Zettel schreibt, dann zählt die Stimme nicht“, sagte er. „Die Wahlhelfer legen solche Zettel auf einen eigenen Stapel, und am Ende wird aufgeschrieben, wie viele es waren.“ Diesmal hatte es keinen einzigen ungültigen Zettel gegeben. Alle Wähler hatten ordentlich ein Kreuz gemacht. „Ungültige Stimmen sind ärgerlich, aber erlaubt“, sagte Herr Lindner. „Falsche Stimmen sind etwas ganz anderes. Die nehmen den echten Wählern etwas weg.“",
+      "„Dann war es Lea selbst!“, platzte Ben heraus, als Ella den anderen Wahlhelfern davon erzählte. „Ihre ganzen Plakate sind doch lila. ‚Lila für Lea‘ steht da überall drauf.“ Ella runzelte die Stirn. Die Plakate waren tatsächlich lila. Aber gemalt hatte Lea sie nicht. Noah hatte beim Treffen der Wahlhelfer stolz erzählt, dass er alle Plakate für Lea selbst gemalt hatte, mit einem ganzen Satz lila Filzstifte.",
+      "„Und Lea hätte in der Mittagspause doch in die Aula gehen können“, sagte Ben. „Da war es ruhig.“ Ella schüttelte den Kopf und blätterte in ihrem Notizbuch zurück. [[b4]]Die ganze Mittagspause über hatte Ella selbst mit Lea im Raum der Schülerzeitung gesessen und sie für einen Artikel interviewt. Lea konnte also nicht in der Aula gewesen sein. Ben kratzte sich am Kopf. „Okay“, sagte er. „Dann war sie es wohl nicht.“",
+      "Am Abend saß Ella lange an ihrem Schreibtisch. Vor ihr lag eine Liste mit allem, was sie wusste. Die Urne war nicht geöffnet worden. Die falschen Zettel hatten keinen Stempel, also kamen sie nicht vom Tisch der Wahlhelfer. Sie hatten lila Kreuze, und die lila Stifte gehörten zu Leas Wahlkampf. Aber Lea selbst hatte ein Alibi. Zwei Fragen standen noch ganz unten auf der Liste: Woher kamen leere Stimmzettel ohne Stempel? Und wer hatte die Gelegenheit, sie unbemerkt in die Urne zu stecken?"
+    ],
+    fragen: [
+      { typ: "schluss", frage: "Wie sind die falschen Zettel in die Urne gekommen?",
+        optionen: ["Durch den Schlitz, während der Wahl", "Jemand hat den Karton aufgeschnitten und wieder zugeklebt", "Herr Lindner hat sich verzählt"], richtig: 0,
+        tipp: "Lies Absatz 1. Was ist mit dem Klebeband und der Unterschrift?",
+        gut: "Genau. Das Band ist heil, also bleibt nur der Schlitz.", spur: "klebeband" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, woran man die falschen Zettel erkennt.",
+        beleg: "b3", tipp: "Ella dreht in Absatz 2 die Zettel um.",
+        gut: "Stark beobachtet! Kein Stempel und ein lila Kreuz.", spur: "stempel" },
+      { typ: "schluss", frage: "Warum glaubt Ben zuerst, dass Lea selbst die Zettel eingeworfen hat?",
+        optionen: ["Die falschen Kreuze sind lila, und Leas Plakate sind auch lila", "Lea hat die Wahlurne zugeklebt", "Lea war Wahlhelferin"], richtig: 0,
+        tipp: "Lies, was Ben am Anfang von Absatz 4 ruft.",
+        gut: "Richtig. Ein Verdacht, aber noch kein Beweis." },
+      { typ: "fakt", frage: "Wer hat die lila Plakate für Lea gemalt?",
+        optionen: ["Noah", "Lea selbst", "Tarik"], richtig: 0,
+        tipp: "Lies das Ende von Absatz 4.",
+        gut: "Genau. Merk dir das gut.", spur: "plakate" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der Lea entlastet.",
+        beleg: "b4", tipp: "Ella blättert in Absatz 5 in ihrem Notizbuch zurück.",
+        gut: "Richtig. Ella ist selbst Leas Alibi.", spur: "lea" }
+    ],
+    weiter: "Woher kommen die Zettel, und wer hatte die Gelegenheit? Weiter in Kapitel 3."
+  },
+  {
+    titel: "Der Einsatzplan",
+    absaetze: [
+      "Herr Lindner legte Ella den Einsatzplan der Wahlhelfer auf den Tisch. Den ganzen Vormittag über hatten immer mindestens drei Wahlhelfer zusammen am Tisch gesessen. Niemand hätte dort unbemerkt 14 Zettel in die Urne stecken können. Nur in der Mittagspause war es anders gewesen. [[b5]]Von halb eins bis Viertel vor eins hatte nur ein einziger Wahlhelfer allein in der Aula aufgepasst, damit die anderen essen konnten, und das war Noah gewesen.",
+      "„Und wo waren Ben und Jana in dieser Zeit?“, fragte Herr Lindner. Ella hatte schon nachgefragt. Ben hatte bei der Fußball-AG mitgespielt, das hatte der Trainer bestätigt, und Jana hatte die ganze Pause mit Lina in der Mensa gesessen. Herr Lindner nickte langsam. Dann stellte Ella die Frage, die sie seit gestern beschäftigte: „Woher kommen leere Stimmzettel ohne Stempel?“",
+      "Herr Lindner führte sie in den kleinen Raum der Schülervertretung. Auf einem Regal lag ein Stapel leerer Stimmzettel. „Ich habe zwanzig Stück mehr kopiert, als wir brauchten“, sagte er. „Als Reserve, falls sich jemand verschreibt. Gestempelt wurde ja erst am Wahltisch.“ Ella zählte nach. Es waren nur noch sechs. [[b6]]Von den zwanzig Reservezetteln fehlten genau vierzehn, genauso viele, wie zu viel in der Urne gelegen hatten. „Wer hat einen Schlüssel für diesen Raum?“, fragte Ella. Herr Lindner zeigte auf eine Liste an der Tür. Am Wahltag hatte sich nur einer den Schlüssel geholt, morgens um halb acht, um die Wahlplakate abzuholen: Noah.",
+      "Ella setzte sich auf einen Stuhl und ging die Spuren noch einmal einzeln durch, so wie sie es gelernt hatte. Lila Stifte hatten viele Kinder. Allein in der Aula zu sein, war noch kein Beweis. Und wer Plakate holen musste, brauchte nun einmal den Schlüssel. [[b7]]Jede Spur für sich hätte ein Zufall sein können, aber alle vier zusammen zeigten auf dieselbe Person. „Ein Verdacht ist noch kein Beweis“, hatte Frau Lehmann einmal gesagt. Doch viele Spuren, die zusammenpassen, ergeben irgendwann ein klares Bild.",
+      "Und trotzdem fühlte es sich nicht gut an. Noah war immer nett zu ihr gewesen. Am Wahltag hatte er ihr sogar die Hälfte von seinem Pausenbrot angeboten. „Was passiert jetzt mit ihm?“, fragte sie leise. Herr Lindner seufzte. „Zuerst reden wir mit ihm“, sagte er. „Allein, nicht vor allen anderen. Jeder darf seine Sicht erzählen, bevor wir entscheiden.“",
+      "Ella nickte. Das fand sie richtig. Sie dachte an Lea, die von allem vielleicht gar nichts wusste und jetzt wie eine Betrügerin dastand. Und an Tarik, der nicht wusste, ob er fair verloren hatte. Eine Wahl gehörte nicht Lea und nicht Tarik, dachte Ella. Sie gehörte allen, die gewählt hatten. Sie sah Herrn Lindner an. „Ich weiß jetzt, wer die Zettel in die Urne gesteckt hat“, sagte sie. „Aber ich glaube, er hat es nicht aus Bosheit getan.“ Weißt du, wer es war?"
+    ],
+    fragen: [
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, wer in der Mittagspause allein in der Aula war.",
+        beleg: "b5", tipp: "Herr Lindner zeigt Ella in Absatz 1 den Einsatzplan.",
+        gut: "Genau. Fünfzehn Minuten allein mit der Urne.", spur: "pause" },
+      { typ: "schluss", frage: "Warum können Ben und Jana es nicht gewesen sein?",
+        optionen: ["Ben war bei der Fußball-AG und Jana in der Mensa", "Beide mögen Lea nicht", "Beide hatten keinen Stift dabei"], richtig: 0,
+        tipp: "Ella hat schon nachgefragt. Lies Absatz 2.",
+        gut: "Richtig. Beide haben ein Alibi, und jemand hat es bestätigt.", spur: "alibi" },
+      { typ: "beweis", frage: "Tippe auf den Satz, der zeigt, woher die falschen Stimmzettel stammen.",
+        beleg: "b6", tipp: "Ella zählt in Absatz 3 die Reservezettel im Raum der Schülervertretung.",
+        gut: "Volltreffer! Vierzehn fehlen, vierzehn waren zu viel.", spur: "reserve" },
+      { typ: "fakt", frage: "Wer hat sich am Wahltag den Schlüssel für den Raum der Schülervertretung geholt?",
+        optionen: ["Noah", "Lea", "Ben"], richtig: 0,
+        tipp: "Lies das Ende von Absatz 3.",
+        gut: "Genau. Morgens um halb acht, für die Plakate.", spur: "schluessel" },
+      { typ: "schluss", frage: "Herr Lindner will zuerst allein mit dem Verdächtigen reden, nicht vor allen anderen. Warum ist das fair?",
+        optionen: ["Jeder soll seine Sicht erzählen dürfen, ohne vor allen bloßgestellt zu werden", "Weil Herr Lindner keine Zeit für ein großes Treffen hat", "Weil die anderen sowieso nicht zuhören"], richtig: 0,
+        tipp: "Lies, was Herr Lindner am Ende von Absatz 5 sagt.",
+        gut: "Richtig. Auch wer etwas falsch gemacht hat, wird fair behandelt." },
+      { typ: "beweis", frage: "Tippe auf den Satz, der erklärt, warum Ella sich trotz einzelner Zufälle sicher ist.",
+        beleg: "b7", tipp: "Ella geht in Absatz 4 die Spuren einzeln durch.",
+        gut: "Genau. Eine Spur kann Zufall sein, vier passende Spuren kaum noch." }
+    ],
+    weiter: "Du hast alle Spuren. Wer hat die 14 Stimmzettel in die Urne gesteckt?"
+  }
+  ],
+  anklage: {
+    frage: "Wer hat die 14 Stimmzettel in die Urne gesteckt?",
+    kurz: "Noah",
+    taeter: "noah",
+    falsch: {
+      lea: "Lea saß die ganze Mittagspause mit Ella im Raum der Schülerzeitung. Sie war gar nicht in der Aula.",
+      ben: "Ben war in der Mittagspause bei der Fußball-AG. Das hat der Trainer bestätigt.",
+      jana: "Jana hat die ganze Pause mit Lina in der Mensa gesessen."
+    },
+    beweise: ["pause", "reserve", "schluessel", "plakate", "stempel", "klebeband"],
+    muss: ["pause", "reserve", "schluessel", "plakate"],
+    hinweisFalsch: "Eine deiner Spuren zeigt nur, wer es nicht war. Welche Spuren zeigen direkt auf eine Person?",
+    hinweisSchwach: "Gut, aber noch nicht stark genug. Welche Spur zeigt, wer die Gelegenheit hatte oder an die leeren Zettel kam?"
+  },
+  aufloesung: {
+    titel: "Die Auflösung",
+    absaetze: [
+      "Noch am selben Nachmittag sprach Herr Lindner mit Noah, in einem ruhigen Raum, nur sie beide. Später erzählte Noah es Ella selbst. Er hatte Angst gehabt, dass Lea verliert. Sie hatte so viel Arbeit in ihre Ideen gesteckt, und Tarik war in der Schule viel bekannter. Morgens hatte er beim Plakateholen die Reservezettel im Regal liegen sehen, und plötzlich war der Gedanke da. In der Mittagspause, als er allein war, hatte er die vierzehn Zettel mit seinem lila Stift angekreuzt und durch den Schlitz geschoben. „Ich dachte, ich helfe ihr“, sagte er und sah auf den Boden. „Dabei habe ich alles kaputtgemacht.“",
+      "Lea hatte davon nichts gewusst. Als sie es erfuhr, war sie zuerst wütend und dann sehr traurig. Dann ging sie zu Herrn Lindner und sagte etwas, das Ella später in ihren Artikel schrieb: „Ich will nur gewinnen, wenn es fair ist. Bitte lassen Sie uns die Wahl wiederholen.“ Tarik war einverstanden. Noah durfte bei der neuen Wahl kein Wahlhelfer sein. Er entschuldigte sich bei Lea, bei Tarik und in einem Brief, den die Schülerzeitung abdruckte, bei der ganzen Schule.",
+      "Eine Woche später wurde neu gewählt. Diesmal zählten die Wahlhelfer am Ende nicht nur die Stimmzettel, sondern auch die Haken, und beides passte genau zusammen. Lea gewann mit 207 zu 191 Stimmen. Sie hätte also auch ohne die falschen Zettel gewonnen. Noah saß bei der Auszählung ganz hinten in der Aula. Als das Ergebnis feststand, klatschte er am lautesten.",
+      "Übrigens: Bei echten Wahlen, zum Beispiel zum Bundestag, gibt es genau solche Regeln, nur noch strenger. Jeder Wähler steht in einem Wählerverzeichnis, gewählt wird geheim, und nach der Wahl zählen Wahlhelfer die Stimmen aus. Dabei darf jeder zuschauen, der möchte. Wer Stimmen fälscht, macht sich strafbar. Denn eine Wahl gehört allen, die wählen."
+    ],
+    erzaehl: "Noah wollte helfen und hat genau das Gegenteil erreicht. Sprecht beim Abendessen darüber: Warum ist es so wichtig, dass jeder genau eine Stimme hat und geheim wählt? Und fragt Papa oder Mama, wie es in einem echten Wahllokal abläuft. Vielleicht könnt ihr bei der nächsten Wahl sogar zusammen beim Auszählen zuschauen."
+  }
 }
 ];
